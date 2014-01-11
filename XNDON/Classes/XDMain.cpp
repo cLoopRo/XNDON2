@@ -2,7 +2,6 @@
 #include "Engine\XDDirector.h"
 #include "GameScene.h"
 
-
 //#include "Render.h"
 //#include "InputController.h"
 //#include "ResManager.h"

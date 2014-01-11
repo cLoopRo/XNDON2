@@ -40,6 +40,9 @@ protected:
 	double speed;
 
 	bool _is_Controlled;
+	bool Controlled;
+	bool reversed;
+	
 	void moveLeft() {if(!_is_Controlled && _gridPos.X>0) {_gridPos.X -= 1.0; _is_Controlled = true;}}
 	void moveRight() {if(!_is_Controlled && _gridPos.X<15) {_gridPos.X += 1.0; _is_Controlled = true;}}
 	void moveUp() {if(!_is_Controlled && _gridPos.Y>0) {_gridPos.Y -= 1.0; _is_Controlled = true;}}
@@ -145,8 +148,10 @@ public:
 		_animation_time += _dTime;
 		if ( _animation_time >= (0.25/speed) )
 		{
-			if ( _animation_queue.empty() )
+			if ( _animation_queue.empty() ){
 				set_Animation(0);
+				Controlled=false;
+			}
 			else
 			{
 				_pImage = *_animation_queue.begin();
@@ -181,7 +186,13 @@ public:
 	// 현재 pImage 가 가리키는 이미지를 그린다.
 	void draw_Sprite(Graphics& G)
 	{
+		if(reversed==true){
+			_pImage->RotateFlip(Gdiplus::Rotate180FlipY);
+		}
 		G.DrawImage(_pImage, _screenPos.X, _screenPos.Y, 180, 180);//, Gdiplus::UnitPixel);	
+		if(reversed==true){
+			_pImage->RotateFlip(Gdiplus::Rotate180FlipY);
+		}
 	}
 
 	void setScreenPos(){
