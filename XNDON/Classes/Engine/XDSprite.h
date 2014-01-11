@@ -87,8 +87,7 @@ public:
 
 
 /*
-
-	<----- 이미지 && 애니메이션 관리 구현 ----->
+<---------- 이미지 && 애니메이션 관리 구현 ----------->
 이미지는 기본적으로 Gdiplus 의 Image 를 통해 관리한다.
 기본적으로 각 객체는 이미지의 포인터만를 가지고 있으며
 
@@ -99,7 +98,7 @@ static map<wstring, Image* >  _images; => (RB TREE) 를 사용하여
 각 객체에서의 이미지포인터는 애니메이션 저장소에 저장된다.
 
 P.S. 현재 모든 이미지의 크기는 고정이므로 사이즈는 고려하지 않는다.
-	<---------------------------> 
+<-----------------------------------------------------> 
 */
 
 private:
@@ -134,10 +133,13 @@ protected:
 	}
 	
 	// 애니메이션 리스트에 있는 N 번째 애니메이션을 현재 애니메이션으로 한다.
-	void set_Animation(int _N){
+	void set_Animation( int _N , bool* _Fin = NULL )
+	{
 		_animation_queue = _animation_list[_N];
-		_animation_time = 0.25/(speed);;
+		_animation_time = 0.25/(speed);
+		_fin = _Fin;
 	}
+	bool* _fin;
 
 public: 
 	// 애니메이션의 변화를 관리한다.
@@ -145,13 +147,15 @@ public:
 		_animation_time += _dTime;
 		if ( _animation_time >= (0.25/speed) )
 		{
+			_animation_time -= (0.25/speed);
 			if ( _animation_queue.empty() )
 				set_Animation(0);
 			else
 			{
-				_pImage = *_animation_queue.begin();
-				_animation_queue.pop_front( );
-				_animation_time -= (0.25/speed);	
+				if ( (_fin != NULL)  && (_animation_queue.size() == 1) )
+					*_fin = true;
+				_pImage = *_animation_queue.begin( );
+				_animation_queue.pop_front( );	
 			}
 		}
 	}
@@ -169,14 +173,10 @@ protected:
 		if ( _Img4 != _T("") )
 			tmpList.push_back( add_Image(_Img4) );
 		_animation_list.push_back( tmpList );
-		return ( _animation_list.size()-1);
+		return ( _animation_list.size()-1 );
 	}
 	/*<---------------- 애니메이션 구현 종료 ------->*/	
 	
-
-
-
-
 public:
 	// 현재 pImage 가 가리키는 이미지를 그린다.
 	void draw_Sprite(Graphics& G)
@@ -189,7 +189,6 @@ public:
 		int backgroundSize = 130;
 		_screenPos.X = (int)(_realPos.X * gridSize);
 		_screenPos.Y = (int)(((_realPos.Y * gridSize + gridSize / 2 ) - (_realPos.Z * gridSize + 80 * sqrt(2.0))) / sqrt(2.0) + backgroundSize );	
-	
 	}
 	
 

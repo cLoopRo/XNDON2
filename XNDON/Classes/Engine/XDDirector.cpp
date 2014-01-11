@@ -39,12 +39,21 @@ void XDDirector::UpdateScreen()
 	for(set<XDSprite*>::iterator itr = sprites.begin() ; itr != sprites.end(); itr++ )
 		(*itr)->draw_Sprite(*memG);
 
-	if (pCBit) {
+	TCHAR szWidth1[128];
+	TCHAR szWidth2[128];
+	Font F(L"±¼¸²",20,FontStyleRegular,UnitPixel);
+		SolidBrush B(Color(0,0,0));
+	
+	_stprintf(szWidth1, TEXT("%.1lf"), 1000.0/_dTime );
+	_stprintf(szWidth2, TEXT("%d"), sprites.size() );
+	memG->DrawString(szWidth1,-1,&F,PointF(0,0),&B);
+	memG->DrawString(szWidth2,-1,&F,PointF(0,20),&B);
+
+
+	if ( pCBit)  {
 		delete pCBit;
 	}
-
-
-	
+		
 	pCBit=new CachedBitmap(pBit,&G);
 	delete pBit;
 	delete memG;

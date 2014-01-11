@@ -30,12 +30,19 @@ public:
 	void Delete(){
 	
 	}
+
+	bool _attack_flag;
 	void Update(double _dTime )
 	{
-		if ( XDDirector::_keys[37]  ) // left
+		if ( _attack_flag == true )
+		;//	Attack();
+
+		if ( XDDirector::_keys[VK_CONTROL] ){
+			Attack();	
+		}
+		else if ( XDDirector::_keys[37]  ) // left
 		{
 			moveLeft();
-			//Attack();
 		}
 		else if ( XDDirector::_keys[38]  ) // up
 		{
@@ -50,7 +57,7 @@ public:
 			moveDown();
 		}
 		else {
-		
+//			set_Animation( 2 );	
 		}
 		Update_Move(_dTime);
 	}
@@ -58,7 +65,8 @@ public:
 
 	void Attack( )
 	{
-		set_Animation(2);
+		_attack_flag = false;
+		set_Animation( 2, &_attack_flag );
 
 	}
 
