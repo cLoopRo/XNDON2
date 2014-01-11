@@ -17,6 +17,7 @@
     <ClCompile Include="Classes\XDMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Classes\BaseMonster.h" />
     <ClInclude Include="Classes\Engine\XDDirector.h" />
     <ClInclude Include="Classes\Engine\XDMain.h" />
     <ClInclude Include="Classes\Engine\XDScene.h" />

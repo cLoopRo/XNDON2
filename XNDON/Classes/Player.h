@@ -3,6 +3,12 @@
 class Player : public XDSprite
 {
 public:
+	enum Animation{
+		STAND,
+		WALKING,
+		BASH,
+	};
+
 	Player()
 	{
 		make_Animation( _T("./assets/img/player/player.png") );
@@ -23,33 +29,38 @@ public:
 	}
 	void Update(double _dTime )
 	{
-		if ( XDDirector::_keys[37]  ) // left
+		if ( XDDirector::_keys[VK_LEFT]  ) // left
 		{
-			moveLeft();
-			Attack();
+			moveLeft();			
 		}
-		else if ( XDDirector::_keys[38]  ) // up
-		{
+		if ( XDDirector::_keys[VK_UP]  ){
 			moveUp();
 		}
-		else if ( XDDirector::_keys[39] ) // right
+		else if ( XDDirector::_keys[VK_RIGHT] ) // right
 		{
 			moveRight();
 		}
-		else if ( XDDirector::_keys[40] ) // down
+		else if ( XDDirector::_keys[VK_DOWN] ) // down
 		{
 			moveDown();
 		}
-		else {
-		
+		else if ( XDDirector::_keys['Z'] ){
+			Attack();
 		}
+		else if ( XDDirector::_keys['x'] ){
+			Jump();
+		}
+
 		Update_Move(_dTime);
 	}
+	void Jump()
+	{
 
+	}
 
 	void Attack( )
 	{
-		set_Animation(2);
+		set_Animation(Player::Animation::BASH);
 		
 	}
 

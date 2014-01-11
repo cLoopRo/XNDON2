@@ -6,8 +6,11 @@ class XDSprite
 {
 public:
 	virtual void Delete() = 0;
-	XDSprite(){ dt_animation = 0.0;
-				speed = 10.0; }
+	XDSprite()
+	{
+		_animation_time = 0.0;
+		speed = 1.0; 
+	}
 protected:
 
 	bool isMoving; 	  
@@ -23,56 +26,6 @@ protected:
 	
 
 	/*<----- 애니메이션 구현 ----->*/
-	// 애니메이션 관련 변수
-private:
-	double dt_animation;
-	vector< list< int > > animation_list; // 애니메이션들을 저장하는 곳
-	list< int > animation_queue; // 다음에 출력될 그림의 번호를 저장하는 곳
-	
-protected:
-	void set_Animation(int _N){
-
-		animation_queue = animation_list[_N];
-		dt_animation = 0.25/(speed);;
-
-	}
-public: 
-	void Update_Animation(double _dTime){	
-		
-		dt_animation += _dTime;
-		if ( dt_animation >= (0.25/speed) )
-		{
-			if ( animation_queue.empty() )
-				set_Animation(0);
-			else
-			{
-				_pImage = _pImages[ *animation_queue.begin() ];
-				animation_queue.pop_front( );
-				dt_animation -= (0.25/speed);
-				
-			}
-		}
-
-	}
-
-protected:
-	// 애니메이션을 추가한다. 현재 애니메이션의 번호를 반환한다.
-	int make_Animation(wstring _Img1, wstring _Img2= _T(""), wstring _Img3 = _T(""), wstring _Img4 = _T(""))
-	{
-		list<int> tmpList;
-		tmpList.push_back( add_Image(_Img1) );
-		if ( _Img2 != _T("") )
-			tmpList.push_back( add_Image(_Img2) );
-		if ( _Img3 != _T("") )
-			tmpList.push_back( add_Image(_Img3) );
-		if ( _Img4 != _T("") )
-			tmpList.push_back( add_Image(_Img4) );
-		animation_list.push_back( tmpList );
-		return (animation_list.size()-1);
-	}
-
-	/*<---------------- 애니메이션 구현 종료 ------->*/	
-	
 
 
 	/*<----- 위치와 충돌 관련 구현 ----->*/
@@ -136,7 +89,7 @@ public:
 
 
 /*
-	<----- 이미지 관리 구현 ----->
+	<----- 이미지 && 애니메이션 관리 구현 ----->
 이미지는 기본적으로 Gdiplus 의 Image 를 통해 관리한다.
 기본적으로 각 객체는 이미지의 포인터만를 가지고 있으며
 
@@ -144,24 +97,27 @@ public:
 static map<wstring, Image* >  _images; => (RB TREE) 를 사용하여
 실제 이미지들을 관리한다.
 
-각 객체는 이미지포인터를 가지는 벡터를 이용하여 여러가지 이미지를 관리한다.
+각 객체에서의 이미지포인터는 애니메이션 저장소에 저장된다.
+A
 
 P.S. 현재 모든 이미지의 크기는 고정이므로 사이즈는 고려하지 않는다.
 	<---------------------------> 
 */
+
 private:
 	Image* _pImage; // 현재 스프라이트를 그릴 때 사용하는 이미지포인터
-	vector< Image* > _pImages; // 현재 스프라이트와 관련된 이미지들을 가리키는 포인터들의 모음
 	static map<wstring, Image* >  _images; // 전체 이미지들을 관리하는 map
+
+	double _animation_time; // 애니메이션의 변화를 위해 있는 값, 생성자에서 0.0 으로 해주어야한다. 
+	list< Image* > _animation_queue; // 다음에 출력될 그림의 포인터의 저장소
+	vector< list< Image* > > _animation_list; // 애니메이션의 저장소
 
 protected:
 	/* 
-	add_Image 함수는 경로와 이름을 이용하여 이미지를 추가하며
-	해당 객체는 추가된 이미지의 포인터를 벡터에 저장하여 가지게 되는데,
-	이 때의 현재 추가된 이미지의 포인터가 저장된 인덱스를 반환한다. 
-	*/	
-	
-	int add_Image(const wstring& _Path){
+	add_Image 함수는 경로와 이름을 이용하여, 이미지의 중복을 확인하고
+	이미지를 추가하고 이미지의 포인터를 반환한다.
+	*/		
+	Image* add_Image(const wstring& _Path){
 		
 		map<wstring, Image*>::iterator itr;
 		// 추가된 경로가 map 에 있는지를 확인하고, pImage 추가된 이미지를 가리키도록 한다.
@@ -171,37 +127,70 @@ protected:
 			_images.insert ( std::pair<wstring, Image* >(_Path, _pImage) );
 		}
 		else
-		{	// 존재한다면 그곳의 주소를 반환한다.
+		{	// 존재한다면 그 이미지포인터를 반환한다.
 			_pImage = itr->second;
 		}
-		// 벡터에 새로운이미지를 가리키는 포인터가 있는지 확인하고, 있으면 그 인덱스를 반환한다.
-		for(int i=0; i<_pImages.size(); i++){
-			if ( _pImage == _pImages[i] )
-				return i;
-		}
-		// 그렇지 않으면 벡터에 이미지포인터를 추가하고, 인덱스를 반환한다.
-		_pImages.push_back( _pImage );
-		return (_pImages.size()-1); 
+		return _pImage; 	
+	
 	}
 	
-	// set_Image 함수는 pImage가 현재 벡터에 저장된 이미지 중 해당 인자의 것을 가리키도록한다.
-	void set_Image(int _N)
-	{
-		_pImage = _pImages[_N];	
+	// 애니메이션 리스트에 있는 N 번째 애니메이션을 현재 애니메이션으로 한다.
+	void set_Animation(int _N){
+		_animation_queue = _animation_list[_N];
+		_animation_time = 0.25/(speed);;
 	}
+
+public: 
+	// 애니메이션의 변화를 관리한다.
+	void Update_Animation(double _dTime){	
+		_animation_time += _dTime;
+		if ( _animation_time >= (0.25/speed) )
+		{
+			if ( _animation_queue.empty() )
+				set_Animation(0);
+			else
+			{
+				_pImage = *_animation_queue.begin();
+				_animation_queue.pop_front( );
+				_animation_time -= (0.25/speed);	
+			}
+		}
+	}
+
+protected:
+	// 애니메이션을 추가한다. 현재 애니메이션의 번호를 반환한다.
+	int make_Animation(wstring _Img1, wstring _Img2= _T(""), wstring _Img3 = _T(""), wstring _Img4 = _T(""))
+	{
+		list<Image* > tmpList;
+		tmpList.push_back( add_Image(_Img1) );
+		if ( _Img2 != _T("") )
+			tmpList.push_back( add_Image(_Img2) );
+		if ( _Img3 != _T("") )
+			tmpList.push_back( add_Image(_Img3) );
+		if ( _Img4 != _T("") )
+			tmpList.push_back( add_Image(_Img4) );
+		_animation_list.push_back( tmpList );
+		return ( _animation_list.size()-1);
+	}
+	/*<---------------- 애니메이션 구현 종료 ------->*/	
+	
+
+
+
+
 public:
 	// 현재 pImage 가 가리키는 이미지를 그린다.
+	void draw_Sprite(Graphics& G)
+	{
+		G.DrawImage(_pImage, _realPos.X, (_realPos.Y - _realPos.Z)/1.4 + 130, 180, 180);//, Gdiplus::UnitPixel);	
+	}
+//
 	void setScreenPos(){
 		int gridSize = 60;
 		int backgroundSize = 130;
 		_screenPos.X = (int)(_realPos.X * gridSize);
 		_screenPos.Y = (int)(((_realPos.Y * gridSize + gridSize / 2 ) - (_realPos.Z * gridSize + 180 * sqrt(2.0))) / sqrt(2.0) + backgroundSize );	
 	
-	}
-	
-	void draw_Sprite(Graphics& G)
-	{
-		G.DrawImage(_pImage, _realPos.X, (_realPos.Y - _realPos.Z)/1.4 + 130, 180, 180);//, Gdiplus::UnitPixel);	
 	}
 
 	/*
