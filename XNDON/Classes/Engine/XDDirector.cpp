@@ -6,16 +6,24 @@ HWND XDDirector::hWnd = NULL;
 CachedBitmap* XDDirector::pCBit = NULL;
 int XDDirector::_dTime = 0;
 int XDDirector::_lastTime = 0;
-	
+bool XDDirector::_keys[256] = { 0 };	
 
+void XDDirector::Update( ){
+	double dTime = _dTime/1000.0;
+	XDDirector::UpdateScreen();
+	
+	_pScene->Update(dTime);
+}
+	
 void XDDirector::OnPaint(HDC hdc){
 	Graphics G(hdc);
 	
 	if ( pCBit == NULL) {
-		UpdateScreen();
+		XDDirector::UpdateScreen();
 	}
 	
 	G.DrawCachedBitmap(pCBit,0,0);
+
 }
 
 void XDDirector::UpdateScreen()

@@ -79,7 +79,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance
 	MSG Message;
     while ( GetMessage(&Message,NULL,0,0) )
 	{
-//		TranslateMessage(&Message); // TranslateMessage 함수는 전달된 메시지가 WM_KEYDOWN인지와 눌려진 키가 문자키인지 검사해 보고 조건이 맞을 경우 WM_CHAR 메시지를 만들어 메시지 큐에 덧붙이는 역할을 한다. 물론 문자 입력이 아닐 경우는 아무 일도 하지 않으며 이 메시지는 DispatchMessage 함수에 의해 WndProc으로 보내진다.
+		TranslateMessage(&Message); // TranslateMessage 함수는 전달된 메시지가 WM_KEYDOWN인지와 눌려진 키가 문자키인지 검사해 보고 조건이 맞을 경우 WM_CHAR 메시지를 만들어 메시지 큐에 덧붙이는 역할을 한다. 물론 문자 입력이 아닐 경우는 아무 일도 하지 않으며 이 메시지는 DispatchMessage 함수에 의해 WndProc으로 보내진다.
 		DispatchMessage(&Message);  // 입력된 문자의 아스키 코드를 wParam으로 전달
     }
 
@@ -115,7 +115,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam)
 	switch (iMessage) {
 	case WM_CREATE:
 		XDDirector::_lastTime = clock();
-		SetTimer( hWnd, 1, 30, NULL );
+		SetTimer( hWnd, 1, 50, NULL );
 		SendMessage(hWnd, WM_TIMER, 1, 0); //메세지를 보내 WndProc 를 부르는 함수 인자는 WndProc 에 전달되는 인자와 같다.
 //		hTimer= (HANDLE) SetTimer( hWnd, 1, 10, NULL );
 //		XDDirector::set_hWndMain( hWnd );
@@ -126,10 +126,13 @@ LRESULT CALLBACK WndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam)
       	return 0;
 
 	 case WM_KEYUP:
+		XDDirector::_keys[wParam] = FALSE;
 //		InputController::keys[wParam] = FALSE;		
 		return 0;
 	 case WM_KEYDOWN:
 //		InputController::keys[wParam] = TRUE;
+		XDDirector::_keys[wParam] = TRUE;
+
 		return 0;
 	/* 마우스 출력 쓸꺼면 쓰세요
 	 case WM_LBUTTONDOWN:
@@ -151,10 +154,10 @@ LRESULT CALLBACK WndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam)
 	*/
 
 	case WM_TIMER:
-		XDDirector::_dTime = XDDirector::_lastTime - clock();
+		XDDirector::_dTime = clock() - XDDirector::_lastTime;
 		XDDirector::_lastTime = clock();
 		XDDirector::Update( );
-		InvalidateRect(hWnd,NULL,FALSE);
+		SendMessage(hWnd, WM_PAINT, 1, 0); //메세지를 보내 WndProc 를 부르는 함수 인자는 WndProc 에 전달되는 인자와 같다.
 		return 0;
 	
 	// 강제로 WM_PAINT 메시지를 발생시켜 주어야 할 때에는 InvalidateRect(hWnd,NULL,FALSE); 함수를 호출 

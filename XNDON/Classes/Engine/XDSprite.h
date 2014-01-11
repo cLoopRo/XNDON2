@@ -6,7 +6,7 @@ class XDSprite
 {
 public:
 	virtual void Delete() = 0;
-	XDSprite(){	}
+	XDSprite(){ dt_animation = 0.0; }
 private:
 	bool isMoving; 	  
 	bool isJumping;
@@ -23,38 +23,50 @@ protected:
 	
 
 	/*<----- 애니메이션 구현 ----->*/
-	void setUpdate(double _DTIME)
-	{
-	
-	}
-
 	// 애니메이션 관련 변수
 private:
 	double dt_animation;
+	vector< list< int > > animation_list; // 애니메이션들을 저장하는 곳
+	list< int > animation_queue; // 다음에 출력될 그림의 번호를 저장하는 곳
+	
+protected:
+	void set_Animation(int _N){
+		animation_queue = animation_list[_N];
+		dt_animation = 0.25;
+	}
+public: 
+	void Update_Animation(double _dTime){	
+		
+		dt_animation += _dTime;
+		if ( dt_animation >= 0.25 )
+		{
+			if ( animation_queue.empty() )
+				set_Animation(0);
+			else
+			{
+				_pImage = _pImages[ *animation_queue.begin() ];
+				animation_queue.pop_front( );
+				dt_animation -= 0.25;
+				
+			}
+		}
 
-	queue< int , vector<int> > animation_queue; // 다음에 출력될 그림의 번호를 저장하는 곳
-	vector< vector<int> > animation_list; // 애니메이션들을 저장하는 곳
+	}
 
 protected:
 	// 애니메이션을 추가한다. 현재 애니메이션의 번호를 반환한다.
-	int make_Animation(wstring _Img1, wstring _Img2, wstring _Img3 = _T(""), wstring _Img4 = _T(""))
+	int make_Animation(wstring _Img1, wstring _Img2= _T(""), wstring _Img3 = _T(""), wstring _Img4 = _T(""))
 	{
-		vector<int> tmpList;
+		list<int> tmpList;
 		tmpList.push_back( add_Image(_Img1) );
-		tmpList.push_back( add_Image(_Img2) );
+		if ( _Img2 != _T("") )
+			tmpList.push_back( add_Image(_Img2) );
 		if ( _Img3 != _T("") )
 			tmpList.push_back( add_Image(_Img3) );
 		if ( _Img4 != _T("") )
 			tmpList.push_back( add_Image(_Img4) );
 		animation_list.push_back( tmpList );
 		return (animation_list.size()-1);
-	}
-
-	// 현재 애니메이션을 큐에 넣는다.
-	void set_animation(int _N)
-	{
-		for(int i=0; i<animation_list[_N].size(); i++)
-		animation_queue.push(animation_list[_N][i] );
 	}
 
 	/*<---------------- 애니메이션 구현 종료 ------->*/	
@@ -65,7 +77,7 @@ protected:
 	// 화면상의 격자 위치는 왼쪽 가장 윗부분을 0,0 으로 한다.
 	
 
-private:
+protected:
 	XDVector3<int> _gridPos;
 	XDVector3<double> _realPos;
 	XDVector3<double> _velocity;
