@@ -10,9 +10,8 @@ bool XDDirector::_keys[256] = { 0 };
 
 void XDDirector::Update( ){
 	double dTime = _dTime/1000.0;
-	XDDirector::UpdateScreen();
-	
 	_pScene->Update(dTime);
+	XDDirector::UpdateScreen();
 }
 	
 void XDDirector::OnPaint(HDC hdc){
@@ -37,14 +36,15 @@ void XDDirector::UpdateScreen()
 		
 	set<XDSprite*> sprites = _pScene->get_Paint_pSprites();
 	// sort ( sprites );s 나중에 고쳐라 
-
 	for(set<XDSprite*>::iterator itr = sprites.begin() ; itr != sprites.end(); itr++ )
 		(*itr)->draw_Sprite(*memG);
 
-		if (pCBit) {
+	if (pCBit) {
 		delete pCBit;
 	}
 
+
+	
 	pCBit=new CachedBitmap(pBit,&G);
 	delete pBit;
 	delete memG;

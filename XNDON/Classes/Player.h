@@ -6,29 +6,50 @@ public:
 	Player()
 	{
 		make_Animation( _T("./assets/img/player/player.png") );
-		make_Animation(_T("./assets/img/player/new_player_bash1.png"), 	_T("./assets/img/player/new_player_bash2.png") );
+		make_Animation( _T("./assets/img/player/new_player_walk1.png"), _T("./assets/img/player/player.png"),
+						_T("./assets/img/player/new_player_walk2.png"), _T("./assets/img/player/player.png") );
+		make_Animation( _T("./assets/img/player/new_player_bash1.png"), _T("./assets/img/player/new_player_bash2.png") );
+		
+		_gridPos = XDVector3<int>(0.0, 0.0, 0.0);
+		_realPos = XDVector3<double>(0.0, 0.0, 0.0);
+		_velocity = XDVector3<double>(2.0/1000, 2.0/1000, 0.0);
+		_collideBox1 = XDVector3<double>(0.0, 0.0, 0.0);
+		_collideBox2 = XDVector3<double>(1.0, 1.0, 1.0);
+		_is_Controlled = false;
+		setScreenPos();
 	}
 	void Delete(){
 	
 	}
 	void Update(double _dTime )
 	{
-		if ( XDDirector::_keys[UP] ){
-			_realPos.Y++;
+		if ( XDDirector::_keys[37]  ) // left
+		{
+			moveLeft();
 			Attack();
 		}
-		if ( XDDirector::_keys[DOWN] ){
-			set_Animation(0);
-			_realPos.Y--;
+		else if ( XDDirector::_keys[38]  ) // up
+		{
+			moveUp();
 		}
+		else if ( XDDirector::_keys[39] ) // right
+		{
+			moveRight();
+		}
+		else if ( XDDirector::_keys[40] ) // down
+		{
+			moveDown();
+		}
+		else {
 		
-
+		}
+		Update_Move(_dTime);
 	}
 
 
 	void Attack( )
 	{
-		set_Animation(1);
+		set_Animation(2);
 		
 	}
 

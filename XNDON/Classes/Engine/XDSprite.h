@@ -6,8 +6,10 @@ class XDSprite
 {
 public:
 	virtual void Delete() = 0;
-	XDSprite(){ dt_animation = 0.0; }
-private:
+	XDSprite(){ dt_animation = 0.0;
+				speed = 10.0; }
+protected:
+
 	bool isMoving; 	  
 	bool isJumping;
 	bool isSkilling;
@@ -16,8 +18,6 @@ private:
 	double attackSpeed;
 	double moveSpeed;
 	double recoverySpeed;
-
-
 
 protected:
 	
@@ -31,14 +31,16 @@ private:
 	
 protected:
 	void set_Animation(int _N){
+
 		animation_queue = animation_list[_N];
-		dt_animation = 0.25;
+		dt_animation = 0.25/(speed);;
+
 	}
 public: 
 	void Update_Animation(double _dTime){	
 		
 		dt_animation += _dTime;
-		if ( dt_animation >= 0.25 )
+		if ( dt_animation >= (0.25/speed) )
 		{
 			if ( animation_queue.empty() )
 				set_Animation(0);
@@ -46,7 +48,7 @@ public:
 			{
 				_pImage = _pImages[ *animation_queue.begin() ];
 				animation_queue.pop_front( );
-				dt_animation -= 0.25;
+				dt_animation -= (0.25/speed);
 				
 			}
 		}
@@ -81,6 +83,57 @@ protected:
 	XDVector3<int> _gridPos;
 	XDVector3<double> _realPos;
 	XDVector3<double> _velocity;
+	XDVector3<double> _collideBox1;
+	XDVector3<double> _collideBox2;
+	XDVector3<int> _screenPos;
+	double speed;
+
+	bool _is_Controlled;
+	void moveLeft() {if(!_is_Controlled && _gridPos.X>0) {_gridPos.X -= 1.0; _is_Controlled = true;}}
+	void moveRight() {if(!_is_Controlled && _gridPos.X<15) {_gridPos.X += 1.0; _is_Controlled = true;}}
+	void moveUp() {if(!_is_Controlled && _gridPos.Y>0) {_gridPos.Y -= 1.0; _is_Controlled = true;}}
+	void moveDown() {if(!_is_Controlled && _gridPos.Y<5) {_gridPos.Y += 1.0; _is_Controlled = true;}}
+public:
+	void Update_Move(double _DTime ){
+		// 위치가 다르면 
+		double delta = 0.0;
+		if (std::abs(_gridPos.Y - _realPos.Y) < 0.01) {     //y좌표의 변화가 없을 때
+			if( _realPos.X - _gridPos.X > 0) {    //왼쪽으로 갈 때
+				delta = -_DTime*_velocity.X;    //변화량 계산
+				if( _realPos.X + delta <= _gridPos.X) {delta = _gridPos.X - _realPos.X; _is_Controlled = false;}   //변화량이 커서 너무 많이 움직일 것 같으면 조정
+				_realPos.X += delta;    //이동변화 적용
+				_collideBox1.X += delta;    //충돌박스 좌표에도 같은 이동변화를 적용
+				_collideBox2.X += delta;
+			}
+			else {    //오른쪽으로 갈 때
+				delta = _DTime*_velocity.X;
+				if( _realPos.X + delta >= _gridPos.X) {delta = _gridPos.X - _realPos.X; _is_Controlled = false;}
+				_realPos.X += delta;
+				_collideBox1.X += delta;
+				_collideBox2.X += delta;
+			}
+		}
+		else if (std::abs(_gridPos.X - _realPos.X) < 0.01) {    //x좌표의 변화가 없을 때
+			if( _realPos.Y - _gridPos.Y > 0) {    //위로 갈 때
+				delta = -_DTime*_velocity.Y;
+				if( _realPos.Y + delta <= _gridPos.Y) {delta = _gridPos.Y - _realPos.Y; _is_Controlled = false;}
+				_realPos.Y += delta;
+				_collideBox1.Y += delta;
+				_collideBox2.Y += delta;
+			}
+			else {    //아래로 갈 때
+				delta = _DTime*_velocity.Y;
+				if( _realPos.Y + delta >= _gridPos.Y) {delta = _gridPos.Y - _realPos.Y; _is_Controlled = false;}
+				_realPos.Y += delta;
+				_collideBox1.Y += delta;
+				_collideBox2.Y += delta;
+			}
+		}
+		setScreenPos();    //계산한 실제 좌표를 가지고 화면상의 좌표를 계산
+		//collideBox의 좌표 동기화가 필요
+	}
+
+
 
 /*
 	<----- 이미지 관리 구현 ----->
@@ -138,9 +191,16 @@ protected:
 	}
 public:
 	// 현재 pImage 가 가리키는 이미지를 그린다.
+	void setScreenPos(){
+		int gridSize = 60;
+		int backgroundSize = 130;
+		_screenPos.X = (int)(_realPos.X * gridSize);
+		_screenPos.Y = (int)(((_realPos.Y * gridSize + gridSize / 2 ) - (_realPos.Z * gridSize + 180 * sqrt(2.0))) / sqrt(2.0) + backgroundSize );	
+	
+	}
+	
 	void draw_Sprite(Graphics& G)
 	{
-
 		G.DrawImage(_pImage, _realPos.X, (_realPos.Y - _realPos.Z)/1.4 + 130, 180, 180);//, Gdiplus::UnitPixel);	
 	}
 

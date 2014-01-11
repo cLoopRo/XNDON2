@@ -157,7 +157,6 @@ LRESULT CALLBACK WndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam)
 		XDDirector::_dTime = clock() - XDDirector::_lastTime;
 		XDDirector::_lastTime = clock();
 		XDDirector::Update( );
-		SendMessage(hWnd, WM_PAINT, 1, 0); //메세지를 보내 WndProc 를 부르는 함수 인자는 WndProc 에 전달되는 인자와 같다.
 		return 0;
 	
 	// 강제로 WM_PAINT 메시지를 발생시켜 주어야 할 때에는 InvalidateRect(hWnd,NULL,FALSE); 함수를 호출 

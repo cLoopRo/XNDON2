@@ -20,6 +20,7 @@ public:
 	static void Update( ); 	
 	static bool _keys[256];
 	
+
 	/*<----- 화면 출력을 관리 ----->*/
 	static HWND hWnd;
 	static CachedBitmap *pCBit;

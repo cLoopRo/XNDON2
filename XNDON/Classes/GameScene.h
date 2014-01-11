@@ -17,6 +17,7 @@ public:
 	{
 		player->Update_Animation(_dTime);
 		player->Update(_dTime);
+		player->Update_Move(_dTime);
 	}
 
 
