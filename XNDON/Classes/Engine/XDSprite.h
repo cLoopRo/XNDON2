@@ -6,13 +6,15 @@ class XDSprite
 {
 public:
 	virtual void Delete() = 0;
-
+	virtual void Update(double _dTime) = 0;
 	XDSprite()
 	{
 		_animation_time = 0.0;
 		speed = 1.0; 
+		_time = 0.0;
 	}
 protected:
+	double _time;
 
 	bool isMoving; 	  
 	bool isJumping;
@@ -29,8 +31,8 @@ protected:
 	/*<----- 위치와 충돌 관련 구현 ----->*/
 	// 화면상의 격자 위치는 왼쪽 가장 윗부분을 0,0 으로 한다.
 	
-
-protected:
+//protected:
+public:
 	XDVector3<int> _gridPos;
 	XDVector3<double> _realPos;
 	XDVector3<double> _velocity;
@@ -40,10 +42,15 @@ protected:
 	double speed;
 
 	bool _is_Controlled;
+
+	bool Controlled;
+	bool reversed;
+	
 	void moveLeft() {if(!_is_Controlled && _gridPos.X>0) {_gridPos.X -= 1.0; _is_Controlled = true;}}
 	void moveRight() {if(!_is_Controlled && _gridPos.X<15) {_gridPos.X += 1.0; _is_Controlled = true;}}
 	void moveUp() {if(!_is_Controlled && _gridPos.Y>0) {_gridPos.Y -= 1.0; _is_Controlled = true;}}
 	void moveDown() {if(!_is_Controlled && _gridPos.Y<5) {_gridPos.Y += 1.0; _is_Controlled = true;}}
+
 public:
 	void Update_Move(double _DTime ){
 		// 위치가 다르면 
@@ -148,8 +155,10 @@ public:
 		if ( _animation_time >= (0.25/speed) )
 		{
 			_animation_time -= (0.25/speed);
-			if ( _animation_queue.empty() )
+			if ( _animation_queue.empty() ){
 				set_Animation(0);
+				Controlled=false;
+			}
 			else
 			{
 				if ( (_fin != NULL)  && (_animation_queue.size() == 1) )
@@ -181,14 +190,24 @@ public:
 	// 현재 pImage 가 가리키는 이미지를 그린다.
 	void draw_Sprite(Graphics& G)
 	{
+		if(reversed==true){
+			_pImage->RotateFlip(Gdiplus::Rotate180FlipY);
+		}
+
+		SolidBrush *brush = new SolidBrush(Color(50, 0, 0, 0));
+		G.FillEllipse(brush, (int)(_realPos.X*60), (int)(_realPos.Y*60/sqrt(2.0)+130)+20, 60, (int)(50/sqrt(2.0)-10));
+
 		G.DrawImage(_pImage, _screenPos.X, _screenPos.Y, 180, 180);//, Gdiplus::UnitPixel);	
+		if(reversed==true){
+			_pImage->RotateFlip(Gdiplus::Rotate180FlipY);
+		}
 	}
 
 	void setScreenPos(){
 		int gridSize = 60;
 		int backgroundSize = 130;
-		_screenPos.X = (int)(_realPos.X * gridSize);
-		_screenPos.Y = (int)(((_realPos.Y * gridSize + gridSize / 2 ) - (_realPos.Z * gridSize + 80 * sqrt(2.0))) / sqrt(2.0) + backgroundSize );	
+		_screenPos.X = (int)(_realPos.X * gridSize - 60);
+		_screenPos.Y = (int)(((_realPos.Y * gridSize + gridSize / 2 ) - (_realPos.Z * gridSize + 120 * sqrt(2.0))) / sqrt(2.0) + backgroundSize );	
 	}
 	
 
