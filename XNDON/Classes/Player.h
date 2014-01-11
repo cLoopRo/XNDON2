@@ -18,6 +18,7 @@ public:
 						_T("./assets/img/player/new_player_walk2.png"), _T("./assets/img/player/player.png") );
 		make_Animation( _T("./assets/img/player/new_player_bash1.png"), _T("./assets/img/player/new_player_bash2.png") );
 		
+
 		_gridPos = XDVector3<int>(0, 0, 0);
 		_realPos = XDVector3<double>(0.0, 0.0, 0.0);
 		_velocity = XDVector3<double>(2.0, 2.0, 0.0);
@@ -58,7 +59,7 @@ public:
 	void Attack( )
 	{
 		set_Animation(2);
-		
+
 	}
 
 	~Player(){	}

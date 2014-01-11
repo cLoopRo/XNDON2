@@ -59,5 +59,8 @@
     <ClInclude Include="Classes\Engine\XDMain.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\BaseMonster.h">
+      <Filter>Header Files\XNDON</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
