@@ -2,6 +2,7 @@
 #include "Engine\XDDirector.h"
 #include "BaseScene.h"
 
+
 //#include "Render.h"
 //#include "InputController.h"
 //#include "ResManager.h"
@@ -72,6 +73,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance
 	
 //	XDScene scene;
 //	Render::setScene(&scene);	
+	BasePlayer::Create_Player();
 	BaseScene* pScene = new BaseScene();
 	XDDirector::setScene( pScene );
 

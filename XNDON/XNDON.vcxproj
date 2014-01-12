@@ -11,6 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Classes\BaseMissile.cpp" />
+    <ClCompile Include="Classes\BaseMonster.cpp" />
+    <ClCompile Include="Classes\BasePlayer.cpp" />
     <ClCompile Include="Classes\Engine\XDDirector.cpp" />
     <ClCompile Include="Classes\Engine\XDScene.cpp" />
     <ClCompile Include="Classes\Engine\XDSprite.cpp" />

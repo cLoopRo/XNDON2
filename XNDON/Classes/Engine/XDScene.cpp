@@ -1,7 +1,7 @@
 #include "XDScene.h"
 #include "XDSprite.h"
 
-void XDScene :: DeleteSprite(XDSprite* pSprite)
+void XDScene :: deletePaintSprite(XDSprite* pSprite)
 {
 	set<XDSprite*>::iterator itr;
 	if ( _paint_pSprites.end() == ( itr = _paint_pSprites.find(pSprite) ) )
@@ -10,6 +10,6 @@ void XDScene :: DeleteSprite(XDSprite* pSprite)
 	}
 	else
 	{
-		(*itr)->Delete( );	_paint_pSprites.erase( itr );
+		(*itr)->Return( );	_paint_pSprites.erase( itr );
 	}
 }

@@ -15,7 +15,7 @@ public:
 		_paint_pSprites.insert(_pSprite);
 	}
 
-	void DeleteSprite(XDSprite* pSprite);
+	void deletePaintSprite(XDSprite* pSprite);
 
 	set<XDSprite*> get_Paint_pSprites(){	return _paint_pSprites;	}
 private:

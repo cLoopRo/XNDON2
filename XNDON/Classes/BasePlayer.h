@@ -3,86 +3,52 @@
 class BasePlayer : public XDSprite
 {
 public:
+
+
+
 	bool rFoot;
-	enum state {
-		STAND,
-		WALK,
-		WALK2,
-		BASH,
-		JUMP,
-		KICK,
-		QUAKE,
-		GUARD,
-		DEATH,
-	};
+
+
+
+public:
 	
-	BasePlayer()
-	{
-		make_Animation( _T("./assets/img/player/player.png") );
-		make_Animation( _T("./assets/img/player/new_player_walk1.png"), _T("./assets/img/player/player.png") );
-		make_Animation(	_T("./assets/img/player/new_player_walk2.png"), _T("./assets/img/player/player.png") );
-		make_Animation( _T("./assets/img/player/new_player_bash1.png"), _T("./assets/img/player/new_player_bash2.png") );
-		make_Animation( _T("./assets/img/player/new_player_jump.png"),  _T("./assets/img/player/player.png") );
-		make_Animation( _T("./assets/img/player/new_player_kick1.png"), _T("./assets/img/player/new_player_kick2.png"), _T("./assets/img/player/player.png") );
-		make_Animation( _T("./assets/img/player/new_player_quake1.png"), _T("./assets/img/player/new_player_quake2.png"), _T("./assets/img/player/new_player_quake3.png") );
-		make_Animation( _T("./assets/img/player/new_player_guard.png") );
-		make_Animation( _T("./assets/img/player/new_player_death.png") );
-
-		_gridPos = XDVector3<int>(0, 0, 0);
-		_realPos = XDVector3<double>(0.0, 0.0, 0.0);
-		_velocity = XDVector3<double>(2.0, 2.0, 0.0);
-		
-	}
-
-	void Delete(){
-	
-	}
-
 	bool _attack_flag;
 	void Update(double _dTime )
 	{
-		if ( XDDirector::_keys['Z'] )
-		{
+
+		if ( XDDirector::_keys['Z'] ){
 			Attack();
 		}
-		if ( XDDirector::_keys['X'] )
-		{
+		else if ( XDDirector::_keys['X'] ){
 			Kick();
 		}
-		if ( XDDirector::_keys['C'] )
-		{
+		else if ( XDDirector::_keys['C'] ){
 			Quake();
 		}
-		if ( XDDirector::_keys['V'] )
-		{
+		else if ( XDDirector::_keys['V'] ){
 			Guard();
 		}
-		if ( XDDirector::_keys[VK_SPACE] )
-		{
+		else if ( XDDirector::_keys[VK_SPACE] ){
 			Jump();
 		}
-		if ( XDDirector::_keys[VK_LEFT]  ) // left
-		{
+		else if ( XDDirector::_keys[VK_LEFT]  ){
 			reversed=true;
 			moveLeft();
+			Walk();
 		}
-		if ( XDDirector::_keys[VK_UP]  ) // up
-		{
+		else if ( XDDirector::_keys[VK_UP]  ){
 			moveUp();
 			Walk();
 		}
-		if ( XDDirector::_keys[VK_RIGHT] ) // right
-		{
+		else if ( XDDirector::_keys[VK_RIGHT] ){
 			reversed=false;
 			moveRight();
 			Walk();
 		}
-		if ( XDDirector::_keys[VK_DOWN] ) // down
-		{
+		else if ( XDDirector::_keys[VK_DOWN] ){
 			moveDown();
 			Walk();
 		}
-//		Update_Move(_dTime);
 	}
 
 
@@ -137,5 +103,46 @@ public:
 	}
 
 	~BasePlayer(){	}
+
+
+
+/*<----- 플레이어 생성 및 메모리 관리 ----->*/
+	static XDSprite* pPlayer;
+	static void Create_Player(){	pPlayer = new BasePlayer();	}
+	static XDSprite* Create(int _X, int _Y, int _Z ){
+		pPlayer->setPosition( _X, _Y, _Z );
+		return pPlayer;
+	}
+	void Return( ){		}
+/*<----- 플레이어 생성 및 메모리 관리 완료 ----->*/
+
+
+/*<----- 애니메이션 세팅 ----->*/
+private :
+	BasePlayer( )
+	{
+		make_Animation( _T("./assets/img/player/player.png") );
+		make_Animation( _T("./assets/img/player/new_player_walk1.png"), _T("./assets/img/player/player.png") );
+		make_Animation(	_T("./assets/img/player/new_player_walk2.png"), _T("./assets/img/player/player.png") );
+		make_Animation( _T("./assets/img/player/new_player_bash1.png"), _T("./assets/img/player/new_player_bash2.png") );
+		make_Animation( _T("./assets/img/player/new_player_jump.png"),  _T("./assets/img/player/player.png") );
+		make_Animation( _T("./assets/img/player/new_player_kick1.png"), _T("./assets/img/player/new_player_kick2.png"), _T("./assets/img/player/player.png") );
+		make_Animation( _T("./assets/img/player/new_player_quake1.png"), _T("./assets/img/player/new_player_quake2.png"), _T("./assets/img/player/new_player_quake3.png") );
+		make_Animation( _T("./assets/img/player/new_player_guard.png") );
+		make_Animation( _T("./assets/img/player/new_player_death.png") );
+	}
 	
+	enum STATE {
+		STAND,
+		WALK,
+		WALK2,
+		BASH,
+		JUMP,
+		KICK,
+		QUAKE,
+		GUARD,
+		DEATH,
+	};
+/*<----- 애니메이션 세팅 종료 ----->*/
+
 };

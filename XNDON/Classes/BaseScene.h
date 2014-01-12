@@ -7,15 +7,18 @@ class BaseScene : public XDScene
 {
 public:
 
-	BasePlayer* player;
-	vector<BaseMonster*> monsters;
+	XDSprite* player;
+	vector<XDSprite*> monsters;
 	BaseScene()
 	{
-		player = new BasePlayer();
+	
+		player = BasePlayer::Create(0, 0, 0);
 		insertPaintSprite(player);
-		monsters.push_back(new BaseMonster() );
-		monsters[0]->_realPos = XDVector3<double>(14,1,0);
+		
+		BaseMonster::Reserve( 20 );
+		monsters.push_back( BaseMonster::Create(14,1,0) );
 		insertPaintSprite(monsters[0]);
+		
 	}
 
 	void Update(double _dTime)

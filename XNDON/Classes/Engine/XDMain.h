@@ -105,10 +105,10 @@ DWORD	unsigned long(int)Çü
 template<class T>
 struct XDVector3
 {
-	XDVector3(){ X = 450; Y = 250; Z = 0;	}
-
-	XDVector3(T _X, T _Y, T _Z): X(_X), Y(_Y), Z(_Z){	}
 	T X, Y, Z;
-
+	XDVector3(){ X = 0; Y = 0; Z = 0;	}
+	XDVector3(T _X, T _Y, T _Z): X(_X), Y(_Y), Z(_Z){	}
+	inline void setPosition(T _X, T _Y, T _Z){	X = _X;	Y = _Y;	Z = _Z;	}
+	
 };
 	

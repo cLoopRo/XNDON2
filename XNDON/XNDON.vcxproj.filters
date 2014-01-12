@@ -39,6 +39,15 @@
     <ClCompile Include="Classes\XDMain.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\BasePlayer.cpp">
+      <Filter>Source Files\XNDON</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\BaseMonster.cpp">
+      <Filter>Source Files\XNDON</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\BaseMissile.cpp">
+      <Filter>Source Files\XNDON</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Engine\XDSprite.h">

@@ -2,5 +2,7 @@
 *.suo
 *.opensdf
 /Debug/
+/Release/
 /ipch/
 /XNDON/Debug/
+/XNDON/Release/

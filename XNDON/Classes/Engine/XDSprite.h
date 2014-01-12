@@ -5,7 +5,7 @@
 class XDSprite
 {
 public:
-	virtual void Delete() = 0;
+	virtual void Return() = 0;
 	virtual void Update(double _dTime) = 0;
 	XDSprite()
 	{
@@ -22,6 +22,9 @@ public:
 		_velocity = XDVector3<double>(2.0, 2.0, 0.0);
 		_is_Controlled = false;
 	}
+	inline void setPosition(int _X, int _Y, int _Z){	_realPos.setPosition(_X, _Y, _Z);	_gridPos.setPosition(_X, _Y, _Z);	}
+	inline void setVelocity(int _X, int _Y, int _Z){	_velocity.setPosition(_X, _Y, _Z);	}
+
 
 protected:
 	double _time;
@@ -54,7 +57,7 @@ public:
 	bool Controlled;
 	bool reversed;
 	
-	void moveLeft() {if(!_is_Controlled && _gridPos.X>0) {_gridPos.X -= 1; _is_Controlled = true;}}
+	void moveLeft(){	if(!_is_Controlled && _gridPos.X>0){_gridPos.X -= 1;	_is_Controlled = true;	}	}
 	void moveRight() {if(!_is_Controlled && _gridPos.X<15) {_gridPos.X += 1; _is_Controlled = true;}}
 	void moveUp() {if(!_is_Controlled && _gridPos.Y>0) {_gridPos.Y -= 1; _is_Controlled = true;}}
 	void moveDown() {if(!_is_Controlled && _gridPos.Y<5) {_gridPos.Y += 1; _is_Controlled = true;}}
@@ -122,7 +125,7 @@ protected:
 	이미지를 추가하고 이미지의 포인터를 반환한다.
 	*/		
 	Image* add_Image(const wstring& _Path){
-		
+
 		map<wstring, Image*>::iterator itr;
 		// 추가된 경로가 map 에 있는지를 확인하고, pImage 추가된 이미지를 가리키도록 한다.
 		if ( _images.end() == ( itr = _images.find(_Path) )  ) 
@@ -131,7 +134,6 @@ protected:
 			_images.insert ( std::pair<wstring, Image* >(_Path, _pImage) );
 		}
 		else
-
 		{	// 존재한다면 그 이미지포인터를 반환한다.
 			_pImage = itr->second;
 		}

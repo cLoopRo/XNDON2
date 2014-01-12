@@ -11,10 +11,4 @@ class BaseMissile : public XDSprite
 
 
 
-
-
-
-public: 
-
-
 };
