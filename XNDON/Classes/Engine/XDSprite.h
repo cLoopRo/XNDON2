@@ -58,10 +58,10 @@ public:
 	bool Controlled;
 	bool reversed;
 	
-	void moveLeft() {if(!_is_Controlled && _gridPos.X>0) {_gridPos.X -= 1.0; _is_Controlled = true;}}
-	void moveRight() {if(!_is_Controlled && _gridPos.X<15) {_gridPos.X += 1.0; _is_Controlled = true;}}
-	void moveUp() {if(!_is_Controlled && _gridPos.Y>0) {_gridPos.Y -= 1.0; _is_Controlled = true;}}
-	void moveDown() {if(!_is_Controlled && _gridPos.Y<5) {_gridPos.Y += 1.0; _is_Controlled = true;}}
+	void moveLeft() {if(!_is_Controlled && _gridPos.X>0) {_gridPos.X -= 1; _is_Controlled = true;}}
+	void moveRight() {if(!_is_Controlled && _gridPos.X<15) {_gridPos.X += 1; _is_Controlled = true;}}
+	void moveUp() {if(!_is_Controlled && _gridPos.Y>0) {_gridPos.Y -= 1; _is_Controlled = true;}}
+	void moveDown() {if(!_is_Controlled && _gridPos.Y<5) {_gridPos.Y += 1; _is_Controlled = true;}}
 
 public:
 	void Update_Move(double _DTime ){

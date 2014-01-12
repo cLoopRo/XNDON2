@@ -26,7 +26,7 @@ public:
 		make_Animation(_T("./assets/img/gob/new_goblin_attacked.png") );
 		make_Animation(_T("./assets/img/gob/new_goblin_death.png") );
 	
-		_gridPos = XDVector3<int>(15, 0, 0);
+		_gridPos = XDVector3<int>(14, 1, 0);
 //		_realPos = XDVector3<double>(0.0, 0.0, 0.0);
 		_velocity = XDVector3<double>(2.0, 2.0, 0.0);
 		_collideBox1 = XDVector3<double>(0.0, 0.0, 0.0);

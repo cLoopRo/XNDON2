@@ -8,6 +8,8 @@ int XDDirector::_dTime = 0;
 int XDDirector::_lastTime = 0;
 bool XDDirector::_keys[256] = { 0 };	
 
+bool compSpriteY (XDSprite* lhs, XDSprite* rhs) {return ((lhs->_realPos.Y)<(rhs->_realPos.Y));}
+
 void XDDirector::Update( ){
 	double dTime = _dTime/1000.0;
 	_pScene->Update(dTime);
@@ -33,7 +35,7 @@ void XDDirector::UpdateScreen()
 	Bitmap *pBit=new Bitmap(crt.right,crt.bottom,&G);
 	Graphics *memG=new Graphics(pBit);
 	memG->FillRectangle(&SolidBrush(Color(255,255,255)),0,0,crt.right,crt.bottom);
-
+	
 	//격자그리기
 	Color *color = new Color();
 	Pen *pen = new Pen(*color, 1.0);
@@ -52,10 +54,16 @@ void XDDirector::UpdateScreen()
 	}
 		
 	set<XDSprite*> sprites = _pScene->get_Paint_pSprites();
-	// sort ( sprites );s 나중에 고쳐라 
-	for(set<XDSprite*>::iterator itr = sprites.begin() ; itr != sprites.end(); itr++ )
-		(*itr)->draw_Sprite(*memG);
 
+	vector<XDSprite*> sprites_vector;
+	for(set<XDSprite*>::iterator itr = sprites.begin() ; itr != sprites.end(); itr++ )
+		sprites_vector.push_back( *itr );
+
+	sort(sprites_vector.begin(), sprites_vector.end(), compSpriteY);
+
+	for(vector<XDSprite*>::iterator itr = sprites_vector.begin() ; itr != sprites_vector.end(); itr++ )
+		(*itr)->draw_Sprite(*memG);
+	
 	TCHAR szWidth1[128];
 	TCHAR szWidth2[128];
 	Font F(L"굴림",20,FontStyleRegular,UnitPixel);
