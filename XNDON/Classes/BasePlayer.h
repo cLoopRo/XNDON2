@@ -50,6 +50,8 @@ public:
 			moveDown();
 			Walk();
 		}
+		else
+			stop();
 	}
 
 

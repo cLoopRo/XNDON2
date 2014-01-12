@@ -83,5 +83,8 @@
     <ClInclude Include="Classes\BaseFire.h">
       <Filter>Header Files\XNDON</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\Engine\XDGridSprite.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

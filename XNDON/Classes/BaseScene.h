@@ -18,7 +18,6 @@ public:
 		player = BasePlayer::Create(0, 0, 0);
 		map.setState(0, 0, BASE_PLAYER, player);
 		insertPaintSprite(player);
-		
 
 		BaseMonster::Reserve( 20 );
 		monsters.push_back( BaseMonster::Create(14,1,0) );

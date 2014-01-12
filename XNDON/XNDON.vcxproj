@@ -25,6 +25,7 @@
     <ClInclude Include="Classes\BaseMissile.h" />
     <ClInclude Include="Classes\BaseMonster.h" />
     <ClInclude Include="Classes\Engine\XDDirector.h" />
+    <ClInclude Include="Classes\Engine\XDGridSprite.h" />
     <ClInclude Include="Classes\Engine\XDMain.h" />
     <ClInclude Include="Classes\Engine\XDScene.h" />
     <ClInclude Include="Classes\Engine\XDSprite.h" />

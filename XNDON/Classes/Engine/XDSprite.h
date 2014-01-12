@@ -24,22 +24,6 @@ public:
 protected:
 	double _time;
 
-	bool isMoving; 	  
-	bool isJumping;
-	bool isSkilling;
-	bool isBeingAttackted;
-
-	double attackSpeed;
-	double moveSpeed;
-	double recoverySpeed;
-
-protected:
-	
-
-	/*<----- 위치와 충돌 관련 구현 ----->*/
-	// 화면상의 격자 위치는 왼쪽 가장 윗부분을 0,0 으로 한다.
-	
-//protected:
 public:
 	XDVector3<int> _gridPos;
 	XDVector3<double> _realPos;
@@ -52,19 +36,24 @@ public:
 	bool Controlled;
 	bool reversed;
 	
-	void moveLeft(){	if(!_is_Controlled && _gridPos.X>0){_gridPos.X -= 1;	_is_Controlled = true;	}	}
-	void moveRight() {if(!_is_Controlled && _gridPos.X<15) {_gridPos.X += 1; _is_Controlled = true;}}
-	void moveUp() {if(!_is_Controlled && _gridPos.Y>0) {_gridPos.Y -= 1; _is_Controlled = true;}}
-	void moveDown() {if(!_is_Controlled && _gridPos.Y<5) {_gridPos.Y += 1; _is_Controlled = true;}}
+	void moveLeft(){	_velocity.X = -2.0; _velocity.Y = -0.0;  }//	if(!_is_Controlled && _gridPos.X>0){_gridPos.X -= 1;	_is_Controlled = true;	}	}
+	void moveRight(){	_velocity.X = 2.0; _velocity.Y = -0.0; 	} //if(!_is_Controlled && _gridPos.X<15) {_gridPos.X += 1; _is_Controlled = true;}}
+	void moveUp(){		_velocity.X = 0.0; _velocity.Y = -2.0; }//if(!_is_Controlled && _gridPos.Y>0) {_gridPos.Y -= 1; _is_Controlled = true;}}
+	void moveDown(){ _velocity.X = 0.0; _velocity.Y = 2.0;  }//if(!_is_Controlled && _gridPos.Y<5) {_gridPos.Y += 1; _is_Controlled = true;}}
+	void stop(){ _velocity.X = 0.0; _velocity.Y = 0.0; }
 
 public:
-	void Update_Move(double _DTime ){
+	void Update_Move( double _dTime ){
+		_realPos.X += _dTime * _velocity.X;
+		_realPos.Y += _dTime * _velocity.Y;
+		_realPos.Z += _dTime * _velocity.Z;				
+		/*
 		// 위치가 다르면 
 		double delta = 0.0;
 		if (std::abs(_gridPos.Y - _realPos.Y) < 0.01) {     //y좌표의 변화가 없을 때
 			if( _realPos.X - _gridPos.X > 0) {    //왼쪽으로 갈 때
 				delta = -_DTime*_velocity.X;    //변화량 계산
-				if( _realPos.X + delta <= _gridPos.X) {delta = _gridPos.X - _realPos.X; _is_Controlled = false;}   //변화량이 커서 너무 많이 움직일 것 같으면 조정
+				if( _realPos.X + delta <= _gridPos.X){	delta = _gridPos.X - _realPos.X; _is_Controlled = false;	}   //변화량이 커서 너무 많이 움직일 것 같으면 조정
 				_realPos.X += delta;    //이동변화 적용
 			}
 			else {    //오른쪽으로 갈 때
@@ -86,7 +75,8 @@ public:
 			}
 		}
 		setScreenPos();    //계산한 실제 좌표를 가지고 화면상의 좌표를 계산
-		//collideBox의 좌표 동기화가 필요
+		//collideBox의 좌표 동기화가 필요 
+*/
 	}
 
 
@@ -187,6 +177,8 @@ public:
 	// 현재 pImage 가 가리키는 이미지를 그린다.
 	void draw_Sprite(Graphics& G)
 	{
+		setScreenPos();
+
 		if(reversed==true){
 			_pImage->RotateFlip(Gdiplus::Rotate180FlipY);
 		}
@@ -207,11 +199,23 @@ public:
 		_screenPos.Y = (int)(((_realPos.Y * gridSize + gridSize / 2 ) - (_realPos.Z * gridSize + 120 * sqrt(2.0))) / sqrt(2.0) + backgroundSize );	
 	}
 
+	~XDSprite(){	}
+};
+
 	/*
 	enum DIR{
 		LEFT,
 		RIGHT,
 	};
 	*/
-	~XDSprite(){	}
-};
+
+	/*
+	bool isMoving; 	  
+	bool isJumping;
+	bool isSkilling;
+	bool isBeingAttackted;
+
+	double attackSpeed;
+	double moveSpeed;
+	double recoverySpeed;
+	*/
