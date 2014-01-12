@@ -15,6 +15,7 @@ public:
 		GUARD,
 		DEATH,
 	};
+	
 	BasePlayer()
 	{
 		make_Animation( _T("./assets/img/player/player.png") );

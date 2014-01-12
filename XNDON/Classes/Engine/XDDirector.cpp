@@ -29,6 +29,9 @@ void XDDirector::OnPaint(HDC hdc){
 
 void XDDirector::UpdateScreen()
 {
+	if ( _pScene == NULL )
+		return ;
+
 	Graphics G(hWnd);
 	RECT crt;
 	GetClientRect(hWnd,&crt);
