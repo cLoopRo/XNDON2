@@ -18,57 +18,39 @@ public:
 			_time += _dTime; // 주기적으로 이동을 하기 위해 (이동 사이사이 텀을 주기 위해)
 			if ( _time >= 0.3 ) {
                 _time -= 0.3;
-				//큐에 집어 넣는 부분
-				if(_animation_que.empty()) {
-					add_que_animation();
+				if(!_animation_que.empty()) {				
+					do_que_pattern();
 				}
-				//행동을 하는 부분
-				else {
-					do_que_animation();
-				}
+				pattern_make();				
 			}
 		}	
 	}
-	void add_que_animation () { //해당 좌표에 도달하면 방향을 바꿈
-		if(_gridPos.X == 4 && _gridPos.Y == 1) { 
-			_dir = 'D';
+	void pattern_make () { //랜덤으로 배회
+		int _rand;
+		int i = 0;
+		srand(time(NULL));
+		while( i < 3 ) {
+			_rand = rand()%4;
+			if(_rand == 0) {
+				_doptr = &BaseMonster::WalkDown;
+				add_que_pattern(_doptr);
+			}
+			if(_rand == 1) {
+				_doptr = &BaseMonster::WalkRight;
+				add_que_pattern(_doptr);
+			}
+			if(_rand == 2) {
+				_doptr = &BaseMonster::WalkLeft;
+				add_que_pattern(_doptr);
+			}
+			if(_rand == 3) {
+				_doptr = &BaseMonster::WalkUp;
+				add_que_pattern(_doptr);
+			}
+			i++;
 		}
-		if(_gridPos.X == 4 && _gridPos.Y == 4) {
-			_dir = 'R';
-		}
-		if(_gridPos.X == 8 && _gridPos.Y == 4) {
-			_dir = 'U';
-		}
-		if(_gridPos.X == 8 && _gridPos.Y == 1) {
-			_dir = 'L';
-		}
-		switch(_dir) { //바꾼 방향 정보를 토대로 함수 포인터에 함수 저장
-		case 'D':
-			_doptr = &BaseMonster::WalkDown;
-			break;
-		case 'U':
-			_doptr = &BaseMonster::WalkUp;
-			break;
-		case 'R':
-			_doptr = &BaseMonster::WalkRight;
-			break;
-		case 'L':
-			_doptr = &BaseMonster::WalkLeft;
-			break;
-		}
-		_animation_que.push(_doptr); //포인터에 저장
-	}
-
-void do_que_animation() { //저장된 큐를 실행시킨다.
-		if(_dir == 'R') {
-			reversed = true;
-		}
-		else if(_dir == 'L') {
-			reversed = false;
-		}
-		// 플립 실행
-		(this->*_animation_que.front())(); //앞에 있는 포인터에서 함수를 가져와 실행 한다.
-		_animation_que.pop(); // 실행한 함수 포인터를 제거한다.
+		_doptr = &BaseMonster::Attack;
+		add_que_pattern(_doptr);
 	}
 	//행동함수들 ........./////////
 	void WalkDown() {
@@ -80,16 +62,32 @@ void do_que_animation() { //저장된 큐를 실행시킨다.
 		set_Animation(MOVE);
 	}
 	void WalkLeft() {
+		reversed = false;
 		moveLeft();
 		set_Animation(MOVE);
 	}
 	void WalkRight() {
+		reversed = true;
 		moveRight();
 		set_Animation(MOVE);
 	}
+	void Attack () {
+		set_Animation(ATTACK);
+		_time -= 0.3;
+	}
 	//행동함수들 ........./////////
-
-/*<----- BaseMonster 의 예약 생성 반환 관리 시작 ----->*/
+	// 큐에 함수를 넣는 함수들 //
+	//큐 관리 함수들
+	void add_que_pattern (BMfptr _nextpattern, int time = 1) {
+		for(int i = 0 ; i < time ; i ++) {
+			_animation_que.push(_nextpattern);
+		}
+	}
+	void do_que_pattern () {
+		(this->*_animation_que.front()) ();
+		_animation_que.pop();
+	}
+	/*<----- BaseMonster 의 예약 생성 반환 관리 시작 ----->*/
 public:
 	static vector<XDSprite*> baseMonsters;
 	static void Reserve(int _N){	for (int i=0; i<_N; i++) baseMonsters.push_back(new BaseMonster());	}
@@ -138,7 +136,7 @@ public:
 		ATTACKED,
 		DEAD,
 	};
-/*<----- BaseMonster의 애니메이션 관리 완료 ----->*/
+/*<----- BaseMonster의 asd 관리 완료 ----->*/
 
 
 
