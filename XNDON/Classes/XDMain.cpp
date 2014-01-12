@@ -117,7 +117,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam)
 	case WM_CREATE:
 		XDDirector::_lastTime = clock();
 		SetTimer( hWnd, 1, 17, NULL );
-		SendMessage(hWnd, WM_TIMER, 1, 0); //메세지를 보내 WndProc 를 부르는 함수 인자는 WndProc 에 전달되는 인자와 같다.
+//		SendMessage(hWnd, WM_TIMER, 1, 0); //메세지를 보내 WndProc 를 부르는 함수 인자는 WndProc 에 전달되는 인자와 같다.
 //		hTimer= (HANDLE) SetTimer( hWnd, 1, 10, NULL );
 //		XDDirector::set_hWndMain( hWnd );
 //		hWndMain = hWnd;
