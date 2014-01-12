@@ -45,7 +45,7 @@ public:
 	}
 
 	static void Clear( ){
-		for(int i=0; i<baseFires.size(); i++)
+		for(unsigned int i=0; i<baseFires.size(); i++)
 			delete baseFires[i];
 		baseFires.clear();
 	}

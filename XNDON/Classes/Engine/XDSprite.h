@@ -10,10 +10,10 @@ public:
 	
 	XDSprite()
 	{
-		animation_time = 0.0;
+		_animation_time = 0.0;
 		speed = 1.0;
-		timer = 0.0;
-		velocity = XDVector3<double>(2.0, 2.0, 0.0);
+		_time = 0.0;
+		_velocity = XDVector3<double>(2.0, 2.0, 0.0);
 		_is_Controlled = false;
 	}
 	inline void setSpeed(double _Speed){	speed = _Speed;	}
