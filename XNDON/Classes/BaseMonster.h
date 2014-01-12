@@ -1,3 +1,4 @@
+#pragma once
 #include "Engine\XDSprite.h"
 
 class BaseMonster : public XDSprite

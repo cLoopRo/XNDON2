@@ -1,3 +1,4 @@
+#pragma once
 #include "Engine\XDMain.h"
 #include "Engine\XDSprite.h"
 

@@ -74,5 +74,8 @@
     <ClInclude Include="Classes\BaseScene.h">
       <Filter>Header Files\XNDON</Filter>
     </ClInclude>
+    <ClInclude Include="Classes\GridMap.h">
+      <Filter>Header Files\XNDON</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

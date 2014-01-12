@@ -28,6 +28,7 @@
     <ClInclude Include="Classes\Engine\XDSprite.h" />
     <ClInclude Include="Classes\BaseScene.h" />
     <ClInclude Include="Classes\BasePlayer.h" />
+    <ClInclude Include="Classes\GridMap.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C261DB0D-8B49-487E-86B2-08DD51935D97}</ProjectGuid>

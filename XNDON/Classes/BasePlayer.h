@@ -1,3 +1,4 @@
+#pragma once
 #include "Engine\XDSprite.h"
 
 class BasePlayer : public XDSprite
@@ -103,6 +104,8 @@ public:
 	}
 
 	~BasePlayer(){	}
+
+
 
 
 
