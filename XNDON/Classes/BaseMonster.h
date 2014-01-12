@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine\XDGridSprite.h"
 #include "Engine\XDMain.h"
-#include "GridMap.h"
+#include "Engine\XDGridMap.h"
 
 class BaseMonster : public XDGridSprite
 {
@@ -106,6 +106,15 @@ public:
 		XDGridSprite* pTmpBaseMonster = *( --baseMonsters.end() );
 		baseMonsters.pop_back();
 		pTmpBaseMonster->setPosition( _X, _Y, _Z );
+		return pTmpBaseMonster;
+	}
+	static XDGridSprite* Create(int _X, int _Y, int _Z, GridMap* _map ){
+		if ( baseMonsters.empty() )
+			baseMonsters.push_back( new BaseMonster() );
+		XDGridSprite* pTmpBaseMonster = *( --baseMonsters.end() );
+		baseMonsters.pop_back();
+		pTmpBaseMonster->setPosition( _X, _Y, _Z );
+		pTmpBaseMonster->gridMap=_map;
 		return pTmpBaseMonster;
 	}
 

@@ -8,7 +8,7 @@ int XDDirector::_dTime = 0;
 int XDDirector::_lastTime = 0;
 bool XDDirector::_keys[256] = { 0 };	
 
-bool compSpriteY (XDSprite* lhs, XDSprite* rhs) {return ((lhs->_realPos.Y)<(rhs->_realPos.Y));}
+bool compSpriteY (XDSprite* lhs, XDSprite* rhs) {return ((lhs->position.Y)<(rhs->position.Y));}
 
 void XDDirector::Update( ){
 	double dTime = _dTime/1000.0;

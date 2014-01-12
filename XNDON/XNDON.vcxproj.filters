@@ -74,9 +74,6 @@
     <ClInclude Include="Classes\BaseScene.h">
       <Filter>Header Files\XNDON</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\GridMap.h">
-      <Filter>Header Files\XNDON</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\BaseMissile.h">
       <Filter>Header Files\XNDON</Filter>
     </ClInclude>
@@ -87,6 +84,9 @@
       <Filter>Header Files\XNDON</Filter>
     </ClInclude>
     <ClInclude Include="Classes\Engine\XDGridSprite.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\Engine\XDGridMap.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>

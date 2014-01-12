@@ -1,7 +1,7 @@
 #pragma once
 #include "XDMain.h"
 #include "XDSprite.h"
-class GridMap;
+#include "XDGridMap.h"
 
 class XDGridSprite : public XDSprite
 {
@@ -14,8 +14,11 @@ class XDGridSprite : public XDSprite
 		UP,
 		DOWN,
 	};
+public:	
+	GridMap* gridMap;
 	
 protected:
+
 	XDGridSprite()
 		: XDSprite()
 	{	
@@ -30,7 +33,6 @@ protected:
 	XDVector3<int> grid_current_position;
 	XDVector3<int> grid_next_position;
 
-	GridMap* gridMap;
 
 	void move_Left(){
 		if ( 0 < grid_current_position.X && !isMoving ){
@@ -72,12 +74,14 @@ public:
 		XDSprite::Update_Move(_dTime);
 		switch ( direction ){
 		case LEFT:
-			if ( position.X <= grid_next_position.X ){
+			if ( position.X <= grid_next_position.X ){ // 넘어갔을때 이동종료지점
 				position.X = grid_next_position.X;
 				grid_current_position.X = grid_next_position.X;
 				velocity.X = 0.0;
 				direction = STOP;
 				isMoving = false;
+				// To do : 여기서 Grid Map 이랑 동기화 시켜라 ..
+
 			}
 			break;
 		case RIGHT:
