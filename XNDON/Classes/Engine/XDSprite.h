@@ -25,6 +25,9 @@ public:
 	inline void setVelocity(int _X, int _Y, int _Z){	_velocity.setPosition(_X, _Y, _Z);	}
 
 
+
+
+
 protected:
 	double _time;
 

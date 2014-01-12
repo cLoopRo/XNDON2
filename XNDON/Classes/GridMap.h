@@ -37,7 +37,6 @@ public:
 	}
 	void setState(int _X, int _Y, GRID _State){
 		Cell[_X][_Y].State = _State;
-
 	}
 	inline void resetState(int _X, int _Y){	
 		Cell[_X][_Y].State = EMPTY;
