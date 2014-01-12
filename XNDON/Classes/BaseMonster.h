@@ -1,9 +1,9 @@
 #pragma once
-#include "Engine\XDSprite.h"
+#include "Engine\XDGridSprite.h"
 #include "Engine\XDMain.h"
 #include "GridMap.h"
 
-class BaseMonster : public XDSprite
+class BaseMonster : public XDGridSprite
 {
 /* do by 이승민 que를 이용한 애니메이션 설정*/
 private:
@@ -29,7 +29,7 @@ public:
 	void pattern_make () { //랜덤으로 배회
 		int _rand;
 		int i = 0;
-		srand(time(NULL));
+		srand( clock() );
 		while( i < 3 ) {
 			_rand = rand()%4;
 			if(_rand == 0) {
@@ -56,27 +56,27 @@ public:
 	//행동함수들 ........./////////
 	void WalkDown() {
 //		gridMap->resetState(_gridPos.X,_gridPos.Y);
-		moveDown();
+		move_Down();
 //		gridMap->setState(_gridPos.X,_gridPos.Y,BASE_MONSTER);
 		set_Animation(MOVE);
 	}
 	void WalkUp() {
 //		gridMap->resetState(_gridPos.X,_gridPos.Y);
-		moveUp();
+		move_Up();
 //		gridMap->setState(_gridPos.X,_gridPos.Y,BASE_MONSTER);
 		set_Animation(MOVE);
 	}
 	void WalkLeft() {
 		reversed = false;
 //		gridMap->resetState(_gridPos.X,_gridPos.Y);
-		moveLeft();
+		move_Left();
 //		gridMap->setState(_gridPos.X,_gridPos.Y,BASE_MONSTER);
 		set_Animation(MOVE);
 	}
 	void WalkRight() {
 		reversed = true;
 //		gridMap->resetState(_gridPos.X,_gridPos.Y);
-		moveRight();
+		move_Right();
 //		gridMap->setState(_gridPos.X,_gridPos.Y,BASE_MONSTER);
 		set_Animation(MOVE);
 	}
@@ -98,12 +98,12 @@ public:
 	}
 	/*<----- BaseMonster 의 예약 생성 반환 관리 시작 ----->*/
 public:
-	static vector<XDSprite*> baseMonsters;
+	static vector<XDGridSprite*> baseMonsters;
 	static void Reserve(int _N){	for (int i=0; i<_N; i++) baseMonsters.push_back(new BaseMonster());	}
-	static XDSprite* Create(int _X, int _Y, int _Z ){
+	static XDGridSprite* Create(int _X, int _Y, int _Z ){
 		if ( baseMonsters.empty() )
 			baseMonsters.push_back( new BaseMonster() );
-		XDSprite* pTmpBaseMonster = *( --baseMonsters.end() );
+		XDGridSprite* pTmpBaseMonster = *( --baseMonsters.end() );
 		baseMonsters.pop_back();
 		pTmpBaseMonster->setPosition( _X, _Y, _Z );
 		return pTmpBaseMonster;

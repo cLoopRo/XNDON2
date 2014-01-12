@@ -1,7 +1,7 @@
 #pragma once
-#include "Engine\XDSprite.h"
+#include "Engine\XDGridSprite.h"
 #include "GridMap.h"
-class BasePlayer : public XDSprite
+class BasePlayer : public XDGridSprite
 {
 public:
 
@@ -16,7 +16,6 @@ public:
 	bool _attack_flag;
 	void Update(double _dTime )
 	{
-		
 		if ( XDDirector::_keys['Z'] ){
 			Attack();
 		}
@@ -35,26 +34,26 @@ public:
 		else if ( XDDirector::_keys[VK_LEFT]  ){
 			reversed=true;
 		//	gridMap->resetState(_gridPos.X,_gridPos.Y);
-			moveLeft();
+			move_Left();
 		//	gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
 			Walk();
 		}
 		else if ( XDDirector::_keys[VK_UP]  ){
 		//	gridMap->resetState(_gridPos.X,_gridPos.Y);
-			moveUp();
+			move_Up();
 		//	gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
 			Walk();
 		}
 		else if ( XDDirector::_keys[VK_RIGHT] ){
 			reversed=false;
 		//	gridMap->resetState(_gridPos.X,_gridPos.Y);
-			moveRight();
+			move_Right();
 		//	gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
 			Walk();
 		}
 		else if ( XDDirector::_keys[VK_DOWN] ){
 		//	gridMap->resetState(_gridPos.X,_gridPos.Y);
-			moveDown();
+			move_Down();
 		//	gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
 			Walk();
 		}
@@ -120,9 +119,9 @@ public:
 
 
 /*<----- 플레이어 생성 및 메모리 관리 ----->*/
-	static XDSprite* pPlayer;
+	static XDGridSprite* pPlayer;
 	static void Create_Player(){	pPlayer = new BasePlayer();	}
-	static XDSprite* Create(int _X, int _Y, int _Z ){
+	static XDGridSprite* Create(int _X, int _Y, int _Z ){
 		pPlayer->setPosition( _X, _Y, _Z );
 		return pPlayer;
 	}

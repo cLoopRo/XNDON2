@@ -1,4 +1,4 @@
 #include "BasePlayer.h"
 
-XDSprite* BasePlayer::pPlayer;
+XDGridSprite* BasePlayer::pPlayer;
 

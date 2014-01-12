@@ -16,6 +16,7 @@
     <ClCompile Include="Classes\BaseMonster.cpp" />
     <ClCompile Include="Classes\BasePlayer.cpp" />
     <ClCompile Include="Classes\Engine\XDDirector.cpp" />
+    <ClCompile Include="Classes\Engine\XDGridSprite.cpp" />
     <ClCompile Include="Classes\Engine\XDScene.cpp" />
     <ClCompile Include="Classes\Engine\XDSprite.cpp" />
     <ClCompile Include="Classes\XDMain.cpp" />

@@ -3,11 +3,6 @@
 #include "XDmain.h"
 #include "XDScene.h"
 
-#define LEFT 37
-#define UP 38
-#define RIGHT 39
-#define DOWN 40
-
 class XDSprite;
 class XDDirector
 {

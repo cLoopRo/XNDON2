@@ -1,2 +1,2 @@
 #include "BaseMonster.h"
-vector<XDSprite*> BaseMonster::baseMonsters;
+vector<XDGridSprite*> BaseMonster::baseMonsters;

@@ -6,11 +6,10 @@ class BaseMissile : public XDSprite
 {
 	void Update(double _dTime){	}
 
-
 	/*<----- BaseMissile 의 예약 생성 반환 관리 시작 ----->*/
 public:
 	static vector<XDSprite*> baseMissiles;
-	static void Reserve(int _N){	for (int i=0; i<_N; i++) baseMissiles.push_back(new BaseMissile());	}
+	static void Reserve(int _N){	for (int i=0; i<_N; i++) baseMissiles.push_back( new BaseMissile() );	}
 	static XDSprite* Create(int _X, int _Y, int _Z ){
 		if ( baseMissiles.empty() )
 			baseMissiles.push_back( new BaseMissile() );

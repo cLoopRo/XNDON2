@@ -9,8 +9,8 @@ class BaseScene : public XDScene
 {
 public:
 
-	XDSprite* player;
-	vector<XDSprite*> monsters;
+	XDGridSprite* player;
+	vector<XDGridSprite*> monsters;
 	GridMap map;
 	BaseScene()
 	{
@@ -30,10 +30,10 @@ public:
 	{
 		player->Update_Animation(_dTime);
 		player->Update(_dTime);
-		player->Update_Move(_dTime);
+		player->Update_Grid_Move(_dTime);
 		monsters[0]->Update_Animation(_dTime);
 		monsters[0]->Update(_dTime);
-		monsters[0]->Update_Move(_dTime);
+		monsters[0]->Update_Grid_Move(_dTime);
 	}
 
 

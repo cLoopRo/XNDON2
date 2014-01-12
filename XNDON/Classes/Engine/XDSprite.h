@@ -2,12 +2,10 @@
 #include "XDMain.h"
 #include "XDDirector.h"
 
-class GridMap;
-
-
 class XDSprite
 {
 public:
+//	virtual void Update_Grid_Move();
 	virtual void Return() = 0;
 	virtual void Update(double _dTime) = 0;
 	
@@ -20,13 +18,20 @@ public:
 		_is_Controlled = false;
 	}
 
+	double speed;
+	XDVector3<double> position;
+	XDVector3<double> velocity;
+	
 	inline void setSpeed(double _Speed){	speed = _Speed;		}
-	inline void setPosition(int _X, int _Y, int _Z){	_realPos.setPosition(_X, _Y, _Z);	_gridPos.setPosition(_X, _Y, _Z);	}
-	inline void setVelocity(int _X, int _Y, int _Z){	_velocity.setPosition(_X, _Y, _Z);	}
-
-
-
-
+	inline void setPosition(int _X, int _Y, int _Z){	
+		_realPos.setPosition(_X, _Y, _Z);
+		_gridPos.setPosition(_X, _Y, _Z);
+		position.setPosition(_X, _Y, _Z);																		
+	}
+	inline void setVelocity(int _X, int _Y, int _Z){	
+		_velocity.setPosition(_X, _Y, _Z);	
+		velocity.setPosition(_X, _Y, _Z);
+	}
 
 protected:
 	double _time;
@@ -36,8 +41,7 @@ public:
 	XDVector3<double> _realPos;
 	XDVector3<double> _velocity;
 	XDVector3<int> _screenPos;
-	GridMap* gridMap;
-	double speed;
+//	double speed;
 
 	bool _is_Controlled;
 
@@ -52,6 +56,10 @@ public:
 
 public:
 	void Update_Move( double _dTime ){
+		position.X += _dTime * velocity.X;
+		position.Y += _dTime * velocity.Y;
+		position.Z += _dTime * velocity.Z;
+		
 		_realPos.X += _dTime * _velocity.X;
 		_realPos.Y += _dTime * _velocity.Y;
 		_realPos.Z += _dTime * _velocity.Z;				
@@ -192,19 +200,26 @@ public:
 		}
 
 		SolidBrush *brush = new SolidBrush(Color(50, 0, 0, 0));
-		G.FillEllipse(brush, (int)(_realPos.X*60), (int)(_realPos.Y*60/sqrt(2.0)+130)+20, 60, (int)(50/sqrt(2.0)-10));
+//		G.FillEllipse(brush, (int)(_realPos.X*60), (int)(_realPos.Y*60/sqrt(2.0)+130)+20, 60, (int)(50/sqrt(2.0)-10));
+		G.FillEllipse(brush, (int)(position.X*60), (int)(position.Y*60/sqrt(2.0)+130)+20, 60, (int)(50/sqrt(2.0)-10));
 
 		G.DrawImage(_pImage, _screenPos.X, _screenPos.Y, 180, 180);//, Gdiplus::UnitPixel);	
 		if(reversed==true){
 			_pImage->RotateFlip(Gdiplus::Rotate180FlipY);
 		}
+		
 	}
 
 	void setScreenPos(){
 		int gridSize = 60;
 		int backgroundSize = 130;
-		_screenPos.X = (int)(_realPos.X * gridSize - 60);
-		_screenPos.Y = (int)(((_realPos.Y * gridSize + gridSize / 2 ) - (_realPos.Z * gridSize + 120 * sqrt(2.0))) / sqrt(2.0) + backgroundSize );	
+//		_screenPos.X = (int)(_realPos.X * gridSize - 60);
+//		_screenPos.Y = (int)(((_realPos.Y * gridSize + gridSize / 2 ) - (_realPos.Z * gridSize + 120 * sqrt(2.0))) / sqrt(2.0) + backgroundSize );	
+
+
+		_screenPos.X = (int)(position.X * gridSize - 60);
+		_screenPos.Y = (int)(((position.Y * gridSize + gridSize / 2 ) - (position.Z * gridSize + 120 * sqrt(2.0))) / sqrt(2.0) + backgroundSize );	
+
 	}
 
 	~XDSprite(){	}
