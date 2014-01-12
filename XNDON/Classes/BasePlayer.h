@@ -34,15 +34,15 @@ public:
 		}
 		else if ( XDDirector::_keys[VK_LEFT]  ){
 			reversed=true;
-		//	gridMap->resetState(_gridPos.X,_gridPos.Y);
+			gridMap->resetState(_gridPos.X,_gridPos.Y);
 			moveLeft();
-		//	gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
+			gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER,this);
 			Walk();
 		}
 		else if ( XDDirector::_keys[VK_UP]  ){
-		//	gridMap->resetState(_gridPos.X,_gridPos.Y);
+			gridMap->resetState(_gridPos.X,_gridPos.Y);
 			moveUp();
-		//	gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
+			gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER,this);
 			Walk();
 		}
 		else if ( XDDirector::_keys[VK_RIGHT] ){
@@ -124,6 +124,11 @@ public:
 	static void Create_Player(){	pPlayer = new BasePlayer();	}
 	static XDSprite* Create(int _X, int _Y, int _Z ){
 		pPlayer->setPosition( _X, _Y, _Z );
+		return pPlayer;
+	}
+	static XDSprite* Create(int _X, int _Y, int _Z, GridMap* _map ){
+		pPlayer->setPosition( _X, _Y, _Z );
+		pPlayer->gridMap=_map;
 		return pPlayer;
 	}
 	void Return( ){		}

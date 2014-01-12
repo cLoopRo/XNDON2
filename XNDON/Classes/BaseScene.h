@@ -15,12 +15,12 @@ public:
 	BaseScene()
 	{
 	
-		player = BasePlayer::Create(0, 0, 0);
+		player = BasePlayer::Create(0, 0, 0,&map);
 		map.setState(0, 0, BASE_PLAYER, player);
 		insertPaintSprite(player);
 
 		BaseMonster::Reserve( 20 );
-		monsters.push_back( BaseMonster::Create(14,1,0) );
+		monsters.push_back( BaseMonster::Create(14,1,0,&map) );
 		map.setState(14, 1, BASE_MONSTER, monsters[0] );
 		insertPaintSprite(monsters[0]);
 		

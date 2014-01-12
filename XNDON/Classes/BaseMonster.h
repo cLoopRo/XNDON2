@@ -108,6 +108,15 @@ public:
 		pTmpBaseMonster->setPosition( _X, _Y, _Z );
 		return pTmpBaseMonster;
 	}
+	static XDSprite* Create(int _X, int _Y, int _Z, GridMap* _map ){
+		if ( baseMonsters.empty() )
+			baseMonsters.push_back( new BaseMonster() );
+		XDSprite* pTmpBaseMonster = *( --baseMonsters.end() );
+		baseMonsters.pop_back();
+		pTmpBaseMonster->setPosition( _X, _Y, _Z );
+		pTmpBaseMonster->gridMap=_map;
+		return pTmpBaseMonster;
+	}
 
 	void Return( ){
 		baseMonsters.push_back( this );
