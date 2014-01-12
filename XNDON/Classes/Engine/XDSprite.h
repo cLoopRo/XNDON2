@@ -16,7 +16,8 @@ public:
 		_velocity = XDVector3<double>(2.0, 2.0, 0.0);
 		_is_Controlled = false;
 	}
-	inline void setSpeed(double _Speed){	speed = _Speed;	}
+
+	inline void setSpeed(double _Speed){	speed = _Speed;		}
 	inline void setPosition(int _X, int _Y, int _Z){	_realPos.setPosition(_X, _Y, _Z);	_gridPos.setPosition(_X, _Y, _Z);	}
 	inline void setVelocity(int _X, int _Y, int _Z){	_velocity.setPosition(_X, _Y, _Z);	}
 
