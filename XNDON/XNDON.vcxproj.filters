@@ -62,12 +62,6 @@
     <ClInclude Include="Classes\Engine\XDMain.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\BaseMonster.h">
-      <Filter>Header Files\XNDON</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseMissile.h">
-      <Filter>Header Files\XNDON</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\BasePlayer.h">
       <Filter>Header Files\XNDON</Filter>
     </ClInclude>
@@ -75,6 +69,12 @@
       <Filter>Header Files\XNDON</Filter>
     </ClInclude>
     <ClInclude Include="Classes\GridMap.h">
+      <Filter>Header Files\XNDON</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\BaseMissile.h">
+      <Filter>Header Files\XNDON</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\BaseMonster.h">
       <Filter>Header Files\XNDON</Filter>
     </ClInclude>
   </ItemGroup>
