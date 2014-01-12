@@ -41,7 +41,7 @@ public:
 	}
 
 private:
-	Grid Cell[16][6];
+	Grid Cell[GRID_WIDTH][GRID_HEIGHT];
 
 };
 
