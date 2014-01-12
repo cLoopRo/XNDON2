@@ -54,21 +54,29 @@ public:
 	}
 	//행동함수들 ........./////////
 	void WalkDown() {
+		gridMap->resetState(_gridPos.X,_gridPos.Y);
 		moveDown();
+		gridMap->setState(_gridPos.X,_gridPos.Y,BASE_MONSTER);
 		set_Animation(MOVE);
 	}
 	void WalkUp() {
+		gridMap->resetState(_gridPos.X,_gridPos.Y);
 		moveUp();
+		gridMap->setState(_gridPos.X,_gridPos.Y,BASE_MONSTER);
 		set_Animation(MOVE);
 	}
 	void WalkLeft() {
 		reversed = false;
+		gridMap->resetState(_gridPos.X,_gridPos.Y);
 		moveLeft();
+		gridMap->setState(_gridPos.X,_gridPos.Y,BASE_MONSTER);
 		set_Animation(MOVE);
 	}
 	void WalkRight() {
 		reversed = true;
+		gridMap->resetState(_gridPos.X,_gridPos.Y);
 		moveRight();
+		gridMap->setState(_gridPos.X,_gridPos.Y,BASE_MONSTER);
 		set_Animation(MOVE);
 	}
 	void Attack () {
