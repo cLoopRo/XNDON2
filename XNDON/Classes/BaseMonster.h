@@ -29,8 +29,6 @@ public:
 		_gridPos = XDVector3<int>(14, 1, 0);
 //		_realPos = XDVector3<double>(0.0, 0.0, 0.0);
 		_velocity = XDVector3<double>(2.0, 2.0, 0.0);
-		_collideBox1 = XDVector3<double>(0.0, 0.0, 0.0);
-		_collideBox2 = XDVector3<double>(1.0, 1.0, 1.0);
 		_is_Controlled = false;
 		setScreenPos();
 		

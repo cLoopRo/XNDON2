@@ -50,16 +50,19 @@
     <ClInclude Include="Classes\Engine\XDScene.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Classes\Player.h">
-      <Filter>Header Files\XNDON</Filter>
-    </ClInclude>
-    <ClInclude Include="Classes\GameScene.h">
-      <Filter>Header Files\XNDON</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\Engine\XDMain.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="Classes\BaseMonster.h">
+      <Filter>Header Files\XNDON</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMissile.h">
+      <Filter>Header Files\XNDON</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\BasePlayer.h">
+      <Filter>Header Files\XNDON</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\BaseScene.h">
       <Filter>Header Files\XNDON</Filter>
     </ClInclude>
   </ItemGroup>

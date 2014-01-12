@@ -10,6 +10,6 @@ void XDScene :: DeleteSprite(XDSprite* pSprite)
 	}
 	else
 	{
-			(*itr)->Delete( );		_paint_pSprites.erase( itr );
+		(*itr)->Delete( );	_paint_pSprites.erase( itr );
 	}
 }

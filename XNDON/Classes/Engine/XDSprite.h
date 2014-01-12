@@ -13,8 +13,6 @@ public:
 		speed = 1.0;
 		_time = 0.0;
 		_velocity = XDVector3<double>(2.0, 2.0, 0.0);
-	//	_collideBox1 = XDVector3<double>(0.0, 0.0, 0.0);
-	//	_collideBox2 = XDVector3<double>(1.0, 1.0, 1.0);
 		_is_Controlled = false;
 	}
 	XDSprite(int _X, int _Y, int _Z){
@@ -48,8 +46,6 @@ public:
 	XDVector3<int> _gridPos;
 	XDVector3<double> _realPos;
 	XDVector3<double> _velocity;
-	XDVector3<double> _collideBox1;
-	XDVector3<double> _collideBox2;
 	XDVector3<int> _screenPos;
 	double speed;
 
@@ -72,15 +68,11 @@ public:
 				delta = -_DTime*_velocity.X;    //변화량 계산
 				if( _realPos.X + delta <= _gridPos.X) {delta = _gridPos.X - _realPos.X; _is_Controlled = false;}   //변화량이 커서 너무 많이 움직일 것 같으면 조정
 				_realPos.X += delta;    //이동변화 적용
-				_collideBox1.X += delta;    //충돌박스 좌표에도 같은 이동변화를 적용
-				_collideBox2.X += delta;
 			}
 			else {    //오른쪽으로 갈 때
 				delta = _DTime*_velocity.X;
 				if( _realPos.X + delta >= _gridPos.X) {delta = _gridPos.X - _realPos.X; _is_Controlled = false;}
 				_realPos.X += delta;
-				_collideBox1.X += delta;
-				_collideBox2.X += delta;
 			}
 		}
 		else if (std::abs(_gridPos.X - _realPos.X) < 0.01) {    //x좌표의 변화가 없을 때
@@ -88,15 +80,11 @@ public:
 				delta = -_DTime*_velocity.Y;
 				if( _realPos.Y + delta <= _gridPos.Y) {delta = _gridPos.Y - _realPos.Y; _is_Controlled = false;}
 				_realPos.Y += delta;
-				_collideBox1.Y += delta;
-				_collideBox2.Y += delta;
 			}
 			else {    //아래로 갈 때
 				delta = _DTime*_velocity.Y;
 				if( _realPos.Y + delta >= _gridPos.Y) {delta = _gridPos.Y - _realPos.Y; _is_Controlled = false;}
 				_realPos.Y += delta;
-				_collideBox1.Y += delta;
-				_collideBox2.Y += delta;
 			}
 		}
 		setScreenPos();    //계산한 실제 좌표를 가지고 화면상의 좌표를 계산
@@ -221,8 +209,6 @@ public:
 		_screenPos.X = (int)(_realPos.X * gridSize - 60);
 		_screenPos.Y = (int)(((_realPos.Y * gridSize + gridSize / 2 ) - (_realPos.Z * gridSize + 120 * sqrt(2.0))) / sqrt(2.0) + backgroundSize );	
 	}
-	
-
 
 	/*
 	enum DIR{

@@ -17,13 +17,14 @@
     <ClCompile Include="Classes\XDMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseMissile.h" />
     <ClInclude Include="Classes\BaseMonster.h" />
     <ClInclude Include="Classes\Engine\XDDirector.h" />
     <ClInclude Include="Classes\Engine\XDMain.h" />
     <ClInclude Include="Classes\Engine\XDScene.h" />
     <ClInclude Include="Classes\Engine\XDSprite.h" />
-    <ClInclude Include="Classes\GameScene.h" />
-    <ClInclude Include="Classes\Player.h" />
+    <ClInclude Include="Classes\BaseScene.h" />
+    <ClInclude Include="Classes\BasePlayer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C261DB0D-8B49-487E-86B2-08DD51935D97}</ProjectGuid>

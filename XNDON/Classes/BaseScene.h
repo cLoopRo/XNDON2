@@ -1,21 +1,21 @@
 #include "Engine\XDScene.h"
-#include "Player.h"
+#include "BasePlayer.h"
 #include "BaseMonster.h"
+#include "BaseMissile.h"
 
-class GameScene : public XDScene
+class BaseScene : public XDScene
 {
 public:
 
-	Player* player;
+	BasePlayer* player;
 	vector<BaseMonster*> monsters;
-	GameScene()
+	BaseScene()
 	{
-		player = new Player();
-		insertNewPaintSprite(player);
+		player = new BasePlayer();
+		insertPaintSprite(player);
 		monsters.push_back(new BaseMonster() );
 		monsters[0]->_realPos = XDVector3<double>(14,1,0);
-
-		insertNewPaintSprite(monsters[0]);
+		insertPaintSprite(monsters[0]);
 	}
 
 	void Update(double _dTime)

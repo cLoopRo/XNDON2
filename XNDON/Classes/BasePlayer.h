@@ -1,6 +1,6 @@
 #include "Engine\XDSprite.h"
 
-class Player : public XDSprite
+class BasePlayer : public XDSprite
 {
 public:
 	bool rFoot;
@@ -15,7 +15,7 @@ public:
 		GUARD,
 		DEATH,
 	};
-	Player()
+	BasePlayer()
 	{
 		make_Animation( _T("./assets/img/player/player.png") );
 		make_Animation( _T("./assets/img/player/new_player_walk1.png"), _T("./assets/img/player/player.png") );
@@ -135,6 +135,6 @@ public:
 		}
 	}
 
-	~Player(){	}
+	~BasePlayer(){	}
 	
 };
