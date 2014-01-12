@@ -2,6 +2,9 @@
 #include "XDMain.h"
 #include "XDDirector.h"
 
+class GridMap;
+
+
 class XDSprite
 {
 public:
@@ -45,6 +48,7 @@ public:
 	XDVector3<double> _realPos;
 	XDVector3<double> _velocity;
 	XDVector3<int> _screenPos;
+	GridMap* gridMap;
 	double speed;
 
 	bool _is_Controlled;
