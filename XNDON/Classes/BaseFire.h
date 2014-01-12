@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine\XDSprite.h"
 
-class BaseMonster : public XDSprite
+class BaseFire : public XDSprite
 {
 public:
 
@@ -27,33 +27,33 @@ public:
 	
 
 
-/*<----- BaseMonster 의 예약 생성 반환 관리 시작 ----->*/
+/*<----- BaseFire 의 예약 생성 반환 관리 시작 ----->*/
 public:
-	static vector<XDSprite*> baseMonsters;
-	static void Reserve(int _N){	for (int i=0; i<_N; i++) baseMonsters.push_back(new BaseMonster());	}
+	static vector<XDSprite*> baseFires;
+	static void Reserve(int _N){	for (int i=0; i<_N; i++) baseFires.push_back(new BaseFire() );	}
 	static XDSprite* Create(int _X, int _Y, int _Z ){
-		if ( baseMonsters.empty() )
-			baseMonsters.push_back( new BaseMonster() );
-		XDSprite* pTmpBaseMonster = *( --baseMonsters.end() );
-		baseMonsters.pop_back();
-		pTmpBaseMonster->setPosition( _X, _Y, _Z );
-		return pTmpBaseMonster;
+		if ( baseFires.empty() )
+			baseFires.push_back( new BaseFire() );
+		XDSprite* pTmpBaseFire = *( --baseFires.end() );
+		baseFires.pop_back();
+		pTmpBaseFire->setPosition( _X, _Y, _Z );
+		return pTmpBaseFire;
 	}
 
 	void Return( ){
-		baseMonsters.push_back( this );
+		baseFires.push_back( this );
 	}
 
 	static void Clear( ){
-		for(int i=0; i<baseMonsters.size(); i++)
-			delete baseMonsters[i];
-		baseMonsters.clear();
+		for(int i=0; i<baseFires.size(); i++)
+			delete baseFires[i];
+		baseFires.clear();
 	}
-/*<----- BaseMonster의 예약 생성 반환 관리 완료 ----->*/
+/*<----- BaseFire의 예약 생성 반환 관리 완료 ----->*/
 
-/*<----- BaseMonster의 애니메이션 관리 시작 ----->*/
+/*<----- BaseFire의 애니메이션 관리 시작 ----->*/
 private:
-	BaseMonster()
+	BaseFire()
 	{
 		make_Animation(_T("./assets/img/gob/new_goblin.png") );
 		make_Animation(_T("./assets/img/gob/new_goblin_walk.png"),
@@ -74,7 +74,7 @@ public:
 		ATTACKED,
 		DEAD,
 	};
-/*<----- BaseMonster의 애니메이션 관리 완료 ----->*/
+/*<----- BaseFire의 애니메이션 관리 완료 ----->*/
 
 
 

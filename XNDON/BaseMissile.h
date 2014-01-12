@@ -4,11 +4,7 @@
 
 class BaseMissile : public XDSprite
 {
-	
-
-
-
-
+		
 
 
 

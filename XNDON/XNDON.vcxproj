@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Classes\BaseFire.cpp" />
     <ClCompile Include="Classes\BaseMissile.cpp" />
     <ClCompile Include="Classes\BaseMonster.cpp" />
     <ClCompile Include="Classes\BasePlayer.cpp" />
@@ -21,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseMissile.h" />
+    <ClInclude Include="Classes\BaseFire.h" />
     <ClInclude Include="Classes\BaseMonster.h" />
     <ClInclude Include="Classes\Engine\XDDirector.h" />
     <ClInclude Include="Classes\Engine\XDMain.h" />

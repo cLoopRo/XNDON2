@@ -48,6 +48,9 @@
     <ClCompile Include="Classes\BaseMissile.cpp">
       <Filter>Source Files\XNDON</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\BaseFire.cpp">
+      <Filter>Source Files\XNDON</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Classes\Engine\XDSprite.h">
@@ -75,6 +78,9 @@
       <Filter>Header Files\XNDON</Filter>
     </ClInclude>
     <ClInclude Include="Classes\GridMap.h">
+      <Filter>Header Files\XNDON</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\BaseFire.h">
       <Filter>Header Files\XNDON</Filter>
     </ClInclude>
   </ItemGroup>
