@@ -35,6 +35,10 @@ public:
 		Cell[_X][_Y].State = _State;
 		Cell[_X][_Y].pSprite = _pSprite;
 	}
+	void setState(int _X, int _Y, GRID _State){
+		Cell[_X][_Y].State = _State;
+
+	}
 	inline void resetState(int _X, int _Y){	
 		Cell[_X][_Y].State = EMPTY;
 		Cell[_X][_Y].pSprite = NULL;

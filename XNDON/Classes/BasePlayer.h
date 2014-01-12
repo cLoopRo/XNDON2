@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine\XDSprite.h"
-
+#include "GridMap.h"
 class BasePlayer : public XDSprite
 {
 public:
@@ -16,7 +16,7 @@ public:
 	bool _attack_flag;
 	void Update(double _dTime )
 	{
-
+		
 		if ( XDDirector::_keys['Z'] ){
 			Attack();
 		}
@@ -34,20 +34,28 @@ public:
 		}
 		else if ( XDDirector::_keys[VK_LEFT]  ){
 			reversed=true;
+			gridMap->resetState(_gridPos.X,_gridPos.Y);
 			moveLeft();
+			gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
 			Walk();
 		}
 		else if ( XDDirector::_keys[VK_UP]  ){
+			gridMap->resetState(_gridPos.X,_gridPos.Y);
 			moveUp();
+			gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
 			Walk();
 		}
 		else if ( XDDirector::_keys[VK_RIGHT] ){
 			reversed=false;
+			gridMap->resetState(_gridPos.X,_gridPos.Y);
 			moveRight();
+			gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
 			Walk();
 		}
 		else if ( XDDirector::_keys[VK_DOWN] ){
+			gridMap->resetState(_gridPos.X,_gridPos.Y);
 			moveDown();
+			gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
 			Walk();
 		}
 		else
