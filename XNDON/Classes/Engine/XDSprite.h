@@ -10,9 +10,21 @@ public:
 	XDSprite()
 	{
 		_animation_time = 0.0;
-		speed = 1.0; 
+		speed = 1.0;
 		_time = 0.0;
+		_velocity = XDVector3<double>(2.0, 2.0, 0.0);
+	//	_collideBox1 = XDVector3<double>(0.0, 0.0, 0.0);
+	//	_collideBox2 = XDVector3<double>(1.0, 1.0, 1.0);
+		_is_Controlled = false;
 	}
+	XDSprite(int _X, int _Y, int _Z){
+		_animation_time = 0.0;
+		speed = 1.0;
+		_time = 0.0;
+		_velocity = XDVector3<double>(2.0, 2.0, 0.0);
+		_is_Controlled = false;
+	}
+
 protected:
 	double _time;
 
