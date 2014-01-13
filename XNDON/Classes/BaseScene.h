@@ -11,19 +11,21 @@ public:
 
 	XDGridSprite* player;
 	vector<XDGridSprite*> monsters;
+	vector<XDGridSprite*> missiles;
 	GridMap map;
 	BaseScene()
 	{
 	
-		player = BasePlayer::Create(0, 0, 0,&map);
+		player = BasePlayer::Create(0, 0, 0, &map);
 		map.setState(0, 0, BASE_PLAYER, player);
 		insertPaintSprite(player);
 
 		BaseMonster::Reserve( 20 );
-		monsters.push_back( BaseMonster::Create(14,1,0,&map) );
+		monsters.push_back( BaseMonster::Create( 14, 1, 0, &map) );
 		map.setState(14, 1, BASE_MONSTER, monsters[0] );
 		insertPaintSprite(monsters[0]);
-		
+	
+		BaseMissile::Reserve( 20 );
 	}
 
 	void Update_InputController(double _dTime){
@@ -71,7 +73,7 @@ public:
 		}
 		else
 			;
-	
+		
 	
 	}
 
@@ -84,6 +86,38 @@ public:
 		monsters[0]->Update(_dTime);
 		monsters[0]->Update_Grid_Move(_dTime);
 		
+		
+		vector<vector<XDGridSprite*>::iterator> eraseList; 
+		for(vector<XDGridSprite*>::iterator itr = missiles.begin(); itr != missiles.end(); itr++){
+			if ( ((BaseMissile*)(*itr))->duration == 0 ){
+				deletePaintSprite( (*itr) );
+				missiles.erase( itr );
+				break;
+			}
+			(*itr)->Update_Animation(_dTime);
+			(*itr)->Update(_dTime);
+			(*itr)->Update_Grid_Move(_dTime);
+			
+
+		}
+		
+		if( ((BasePlayer*) player)->flag_earthquake == true )
+		{
+			if ( player->reversed == true )
+			{
+				missiles.push_back( BaseMissile::Create(player->grid_current_position.X - 1, player->grid_current_position.Y, 0, &map) );
+				map.setState(player->grid_current_position.X - 1, player->grid_current_position.Y, BASE_MISSILE, *( missiles.end() - 1 ) );
+				(*(missiles.end()-1))->reversed = true;
+			}
+			else{
+				missiles.push_back( BaseMissile::Create(player->grid_current_position.X + 1, player->grid_current_position.Y, 0, &map) );
+				map.setState(player->grid_current_position.X + 1, player->grid_current_position.Y, BASE_MISSILE, *( missiles.end() - 1 ) );
+				(*(missiles.end()-1))->reversed = false;
+			}
+			insertPaintSprite( *( missiles.end() - 1 ) );
+			((BasePlayer*) player)->flag_earthquake = false;
+		}
+
 
 	}
 

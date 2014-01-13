@@ -6,7 +6,9 @@
 class XDGridSprite : public XDSprite
 {
 public:
+
 	void Update(double _dTime) = 0;
+	TYPE virtual GetType( ) = 0;
 
 	enum DIRECTION{ // 현재 이동방향을 나타낸다.
 		STOP,
@@ -16,17 +18,16 @@ public:
 		DOWN,
 	};
 public:	
-	GridMap* gridMap;
+	GridMap* grid_map;
 	
 protected:
-
 	XDGridSprite()
 		: XDSprite()
 	{	
 		isMoving = false;
 		direction = STOP;
 	}
-
+public:	
 	bool isMoving;
 	DIRECTION direction;
 	static const double base_velocity;
@@ -82,18 +83,18 @@ public:
 		XDSprite::Update_Move(_dTime);
 		switch ( direction ){
 		case LEFT:
-			if ( position.X <= grid_next_position.X ){ // 넘어갔을때 이동종료지점
+			if ( position.X <= grid_next_position.X ){ // 넘어갔을때 이동종료지점				
+				grid_map->moveSprite( grid_current_position.X, grid_current_position.Y, grid_next_position.X, grid_next_position.Y); 
 				position.X = grid_next_position.X;
 				grid_current_position.X = grid_next_position.X;
 				velocity.X = 0.0;
 				direction = STOP;
 				isMoving = false;
-				// To do : 여기서 Grid Map 이랑 동기화 시켜라 ..
-
 			}
 			break;
 		case RIGHT:
 			if ( grid_next_position.X <= position.X ){
+				grid_map->moveSprite( grid_current_position.X, grid_current_position.Y, grid_next_position.X, grid_next_position.Y); 
 				position.X = grid_next_position.X;
 				grid_current_position.X = grid_next_position.X;
 				velocity.X = 0.0;
@@ -103,6 +104,7 @@ public:
 			break;
 		case UP:
 			if ( position.Y <= grid_next_position.Y ){
+				grid_map->moveSprite( grid_current_position.X, grid_current_position.Y, grid_next_position.X, grid_next_position.Y); 
 				position.Y = grid_next_position.Y;
 				grid_current_position.Y = grid_next_position.Y;
 				velocity.Y = 0.0;
@@ -112,6 +114,7 @@ public:
 			break;
 		case DOWN:
 			if ( grid_next_position.Y <= position.Y ){
+				grid_map->moveSprite( grid_current_position.X, grid_current_position.Y, grid_next_position.X, grid_next_position.Y); 
 				position.Y = grid_next_position.Y;
 				grid_current_position.Y = grid_next_position.Y;
 				velocity.Y = 0.0;

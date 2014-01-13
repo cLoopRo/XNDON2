@@ -1,2 +1,2 @@
 #include "BaseMissile.h"
-vector<XDSprite*> BaseMissile::baseMissiles;
+vector<XDGridSprite*> BaseMissile::baseMissiles;

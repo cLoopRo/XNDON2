@@ -4,15 +4,12 @@
 class BasePlayer : public XDGridSprite
 {
 public:
-
-
-
 	bool rFoot;
 
-
 public:
-	
-	bool _attack_flag;
+	TYPE GetType(){	return BASE_PLAYER;	}
+
+	bool flag_earthquake;
 	void Update(double _dTime )
 	{
 		Update_Animation( _dTime );
@@ -59,7 +56,7 @@ public:
 	void Quake()
 	{
 		if(Controlled==false ){
-			set_Animation(QUAKE);
+			set_Animation(QUAKE, &flag_earthquake);
 			Controlled=true;
 		}
 	}
@@ -80,14 +77,20 @@ public:
 /*<----- 플레이어 생성 및 메모리 관리 ----->*/
 	static XDGridSprite* pPlayer;
 	static void Create_Player(){	pPlayer = new BasePlayer();	}
+/*	
 	static XDGridSprite* Create(int _X, int _Y, int _Z ){
 		pPlayer->setPosition( _X, _Y, _Z );
 		return pPlayer;
 	}
+*/
 	static XDGridSprite* Create(int _X, int _Y, int _Z, GridMap* _map ){
-		pPlayer->setPosition( _X, _Y, _Z );
-		pPlayer->gridMap=_map;
-		return pPlayer;
+		if ( _map->isEmpty(_X, _Y) ){
+			pPlayer->setPosition( _X, _Y, _Z );
+			pPlayer->grid_map = _map;
+			return pPlayer;
+		}
+		else
+			return NULL;
 	}
 	void Return( ){		}
 /*<----- 플레이어 생성 및 메모리 관리 완료 ----->*/
@@ -106,6 +109,8 @@ private :
 		make_Animation( _T("./assets/img/player/new_player_quake1.png"), _T("./assets/img/player/new_player_quake2.png"), _T("./assets/img/player/new_player_quake3.png") );
 		make_Animation( _T("./assets/img/player/new_player_guard.png") );
 		make_Animation( _T("./assets/img/player/new_player_death.png") );
+		
+		flag_earthquake = false;
 	}
 	
 	enum STATE {

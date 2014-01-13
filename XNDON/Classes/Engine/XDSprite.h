@@ -8,11 +8,15 @@ public:
 	virtual void Return() = 0;
 	virtual void Update(double _dTime) = 0;
 	
+	
+	bool isSkilling;
 	XDSprite()
 	{
+		flag = NULL;
 		_animation_time = 0.0;
 		speed = 1.0;
 		_time = 0.0;
+		isSkilling = false;
 	}
 
 	double speed;
@@ -27,6 +31,7 @@ protected:
 
 public:
 	XDVector3<int> _screenPos;
+
 
 	bool Controlled;
 	bool reversed;
@@ -85,11 +90,14 @@ protected:
 	}
 	
 	// 애니메이션 리스트에 있는 N 번째 애니메이션을 현재 애니메이션으로 한다.
-	void set_Animation( int _N )
+	void set_Animation( int _N, bool *_Flag = NULL )
 	{
 		_animation_queue = _animation_list[_N];
 		_animation_time = 0.25/(speed);
+		flag = _Flag;
 	}
+
+	bool *flag;
 
 public: 
 	// 애니메이션의 변화를 관리한다.
@@ -104,8 +112,9 @@ public:
 			}
 			else
 			{
-				if ( _animation_queue.size() == 1 )
-					;
+				if ( flag != NULL && _animation_queue.size() == 1 ){
+					*flag = true;
+				}
 				_pImage = *_animation_queue.begin( );
 				_animation_queue.pop_front( );	
 			}

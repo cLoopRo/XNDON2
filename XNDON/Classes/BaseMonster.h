@@ -5,11 +5,14 @@
 
 class BaseMonster : public XDGridSprite
 {
+public:
+	TYPE GetType( ){	return BASE_MONSTER;	}
+
 /* do by 이승민 que를 이용한 애니메이션 설정*/
 private:
 	typedef void (BaseMonster::*BMfptr)(void); //함수 포인터형 큐를 사용하기 위해 typedef를 사용
 	BMfptr _doptr;	//애니메이션 함수를 가르킬 함수 포인터
-	queue< BMfptr > _animation_que;	//함수 포인터를 저장할 큐
+	deque< BMfptr > _animation_que;	//함수 포인터를 저장할 큐
 	char _dir;	//방향을 저장할 변수
 public:
 
@@ -84,17 +87,22 @@ public:
 		set_Animation(ATTACK);
 		_time -= 0.3;
 	}
+	void Attacked() {
+		_animation_que.clear();
+		set_Animation(ATTACKED);
+		_time -= 0.3;
+	}
 	//행동함수들 ........./////////
 	// 큐에 함수를 넣는 함수들 //
 	//큐 관리 함수들
 	void add_que_pattern (BMfptr _nextpattern, int time = 1) {
 		for(int i = 0 ; i < time ; i ++) {
-			_animation_que.push(_nextpattern);
+			_animation_que.push_back(_nextpattern);
 		}
 	}
 	void do_que_pattern () {
 		(this->*_animation_que.front()) ();
-		_animation_que.pop();
+		_animation_que.pop_front();
 	}
 	/*<----- BaseMonster 의 예약 생성 반환 관리 시작 ----->*/
 public:
@@ -114,7 +122,7 @@ public:
 		XDGridSprite* pTmpBaseMonster = *( --baseMonsters.end() );
 		baseMonsters.pop_back();
 		pTmpBaseMonster->setPosition( _X, _Y, _Z );
-		pTmpBaseMonster->gridMap=_map;
+		pTmpBaseMonster->grid_map=_map;
 		return pTmpBaseMonster;
 	}
 
