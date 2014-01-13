@@ -87,10 +87,14 @@ public:
 		set_Animation(ATTACK);
 		_time -= 0.3;
 	}
-	void Attacked() {
+	void Attacked_by() {
 		_animation_que.clear();
+		_doptr = &BaseMonster::Attacked;
+		_animation_que.push_front(_doptr);
+	}
+	void Attacked() {
 		set_Animation(ATTACKED);
-		_time -= 0.3;
+		_time -= 1.0;
 	}
 	//행동함수들 ........./////////
 	// 큐에 함수를 넣는 함수들 //

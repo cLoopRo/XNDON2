@@ -128,4 +128,16 @@ public:
 		}
 	}
 
+	void draw_Sprite(Graphics &G)
+	{
+		XDSprite::draw_Sprite(G);
+
+		TCHAR szWidth[128];
+		Font F(L"±¼¸²",20,FontStyleRegular,UnitPixel);
+		SolidBrush B(Color(0,0,0));
+		_stprintf(szWidth, TEXT("%d %d "), grid_current_position.X, grid_current_position.Y );
+		G.DrawString(szWidth,-1,&F,PointF(_screenPos.X + 65, _screenPos.Y + 25),&B);
+	
+	}
+
 };

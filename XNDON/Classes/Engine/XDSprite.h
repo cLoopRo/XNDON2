@@ -140,7 +140,7 @@ protected:
 	
 public:
 	// 현재 pImage 가 가리키는 이미지를 그린다.
-	void draw_Sprite(Graphics& G)
+	virtual void draw_Sprite(Graphics& G)
 	{
 		setScreenPos();
 

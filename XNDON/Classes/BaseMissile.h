@@ -7,11 +7,6 @@ class BaseMissile : public XDGridSprite
 
 	void Update(double _dTime){
 		if ( !reversed && !isMoving ){
-			if ( grid_map->getState( (grid_current_position.X+1)%16, grid_current_position.Y) == BASE_MONSTER ){
-				((BaseMonster*)grid_map->getSprite( (grid_current_position.X+1)%16, grid_current_position.Y))->Attacked();
-				duration = 0;
-				return ; 
-			}
 			move_Right();
 			set_Animation(MOVE);
 			duration--;

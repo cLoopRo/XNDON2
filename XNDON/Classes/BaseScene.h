@@ -42,8 +42,15 @@ public:
 		else if ( XDDirector::_keys['V'] ){
 			((BasePlayer*)player )->Guard();
 		}
+		else if ( XDDirector::_keys['A'] ){
+			if ( ((BasePlayer*)player )->speed_duration <= 0 ){
+				((BasePlayer*)player )->speed = 2.0;
+				((BasePlayer*)player )->speed_duration = 5.0;
+			}
+		}
 		else if ( XDDirector::_keys[VK_SPACE] ){
 			((BasePlayer*)player )->Jump();
+
 		}
 		else if ( XDDirector::_keys[VK_LEFT]  ){
 			((BasePlayer*)player )->reversed = true;
@@ -86,7 +93,16 @@ public:
 		monsters[0]->Update(_dTime);
 		monsters[0]->Update_Grid_Move(_dTime);
 		
-		
+
+
+		for(vector<XDGridSprite*>::iterator itr1 = monsters.begin(); itr1 != monsters.end(); itr1++){
+			for(vector<XDGridSprite*>::iterator itr2 = missiles.begin(); itr2 != missiles.end(); itr2++){
+				if ( (*itr1)->grid_current_position.X == (*itr2)->grid_current_position.X && (*itr1)->grid_current_position.Y == (*itr2)->grid_current_position.Y ) {
+					((BaseMonster*)(*itr1))->Attacked_by();
+					((BaseMissile*)(*itr2))->duration = 0;
+				}
+			}
+		}
 		vector<vector<XDGridSprite*>::iterator> eraseList; 
 		for(vector<XDGridSprite*>::iterator itr = missiles.begin(); itr != missiles.end(); itr++){
 			if ( ((BaseMissile*)(*itr))->duration == 0 ){
@@ -96,8 +112,7 @@ public:
 			}
 			(*itr)->Update_Animation(_dTime);
 			(*itr)->Update(_dTime);
-			(*itr)->Update_Grid_Move(_dTime);
-			
+			(*itr)->Update_Grid_Move(_dTime);	
 
 		}
 		

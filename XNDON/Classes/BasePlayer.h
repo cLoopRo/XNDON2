@@ -5,7 +5,7 @@ class BasePlayer : public XDGridSprite
 {
 public:
 	bool rFoot;
-
+	double speed_duration;
 public:
 	TYPE GetType(){	return BASE_PLAYER;	}
 
@@ -14,6 +14,13 @@ public:
 	{
 		Update_Animation( _dTime );
 		Update_Grid_Move( _dTime );
+		
+		if ( speed_duration >= 0 ){
+			speed_duration -= _dTime;
+		}
+		else
+			speed = 1.0;
+
 	}
 
 	void Attack( )
@@ -111,6 +118,7 @@ private :
 		make_Animation( _T("./assets/img/player/new_player_death.png") );
 		
 		flag_earthquake = false;
+		speed_duration = 0;
 	}
 	
 	enum STATE {
