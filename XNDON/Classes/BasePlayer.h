@@ -10,61 +10,19 @@ public:
 	bool rFoot;
 
 
-
 public:
 	
 	bool _attack_flag;
 	void Update(double _dTime )
 	{
-		if ( XDDirector::_keys['Z'] ){
-			Attack();
-		}
-		else if ( XDDirector::_keys['X'] ){
-			Kick();
-		}
-		else if ( XDDirector::_keys['C'] ){
-			Quake();
-		}
-		else if ( XDDirector::_keys['V'] ){
-			Guard();
-		}
-		else if ( XDDirector::_keys[VK_SPACE] ){
-			Jump();
-		}
-		else if ( XDDirector::_keys[VK_LEFT]  ){
-			reversed=true;
-			gridMap->resetState(_gridPos.X,_gridPos.Y);
-			move_Left();
-			gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER,this);
-			Walk();
-		}
-		else if ( XDDirector::_keys[VK_UP]  ){
-			gridMap->resetState(_gridPos.X,_gridPos.Y);
-			move_Up();
-			gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER,this);
-			Walk();
-		}
-		else if ( XDDirector::_keys[VK_RIGHT] ){
-			reversed=false;
-		//	gridMap->resetState(_gridPos.X,_gridPos.Y);
-			move_Right();
-		//	gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
-			Walk();
-		}
-		else if ( XDDirector::_keys[VK_DOWN] ){
-		//	gridMap->resetState(_gridPos.X,_gridPos.Y);
-			move_Down();
-		//	gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
-			Walk();
-		}
-		else
-			stop();
+		Update_Animation( _dTime );
+		Update_Grid_Move( _dTime );
 	}
 
 	void Attack( )
 	{
 		if(Controlled==false ){
-			set_Animation(BASH);
+			set_Animation( BASH );
 			Controlled=true;
 
 

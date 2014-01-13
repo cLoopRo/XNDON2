@@ -26,11 +26,60 @@ public:
 		
 	}
 
+	void Update_InputController(double _dTime){
+	
+		if ( XDDirector::_keys['Z'] ){
+			((BasePlayer*)player )->Attack( );
+		}
+		else if ( XDDirector::_keys['X'] ){
+			((BasePlayer*)player )->Kick( );
+		}
+		else if ( XDDirector::_keys['C'] ){
+			((BasePlayer*)player )->Quake();
+		}
+		else if ( XDDirector::_keys['V'] ){
+			((BasePlayer*)player )->Guard();
+		}
+		else if ( XDDirector::_keys[VK_SPACE] ){
+			((BasePlayer*)player )->Jump();
+		}
+		else if ( XDDirector::_keys[VK_LEFT]  ){
+			((BasePlayer*)player )->reversed = true;
+//			gridMap->resetState(_gridPos.X,_gridPos.Y);
+			((BasePlayer*)player )->move_Left();
+//			gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER,this);
+			((BasePlayer*)player )->Walk();
+		}
+		else if ( XDDirector::_keys[VK_UP]  ){
+//			gridMap->resetState(_gridPos.X,_gridPos.Y);
+			((BasePlayer*)player )->move_Up();
+//			gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER,this);
+			((BasePlayer*)player )->Walk();
+		}
+		else if ( XDDirector::_keys[VK_RIGHT] ){
+			((BasePlayer*)player )->reversed=false;
+		//	gridMap->resetState(_gridPos.X,_gridPos.Y);
+			((BasePlayer*)player )->move_Right();
+		//	gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
+			((BasePlayer*)player )->Walk();
+		}
+		else if ( XDDirector::_keys[VK_DOWN] ){
+		//	gridMap->resetState(_gridPos.X,_gridPos.Y);
+			((BasePlayer*)player )->move_Down();
+		//	gridMap->setState(_gridPos.X,_gridPos.Y,BASE_PLAYER);
+			((BasePlayer*)player )->Walk();
+		}
+		else
+			;
+	
+	
+	}
+
 	void Update(double _dTime)
 	{
-		player->Update_Animation(_dTime);
+		Update_InputController(_dTime);			
 		player->Update(_dTime);
-		player->Update_Grid_Move(_dTime);
+
 		monsters[0]->Update_Animation(_dTime);
 		monsters[0]->Update(_dTime);
 		monsters[0]->Update_Grid_Move(_dTime);

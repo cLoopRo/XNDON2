@@ -10,16 +10,7 @@ public:
 		_time += _dTime;
 		if ( _time >= 1.0 )
 		{
-			_time -= 1.0;
-			set_Animation(MOVE);
-			if ( rand()%2 )
-				moveLeft();
-			else if ( rand()%3 )
-				moveRight();
-			else if ( rand()%4 )
-				moveUp();
-			else
-				moveDown();
+
 		}
 	
 	}

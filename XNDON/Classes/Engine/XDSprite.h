@@ -5,7 +5,6 @@
 class XDSprite
 {
 public:
-//	virtual void Update_Grid_Move();
 	virtual void Return() = 0;
 	virtual void Update(double _dTime) = 0;
 	
@@ -14,87 +13,30 @@ public:
 		_animation_time = 0.0;
 		speed = 1.0;
 		_time = 0.0;
-		_velocity = XDVector3<double>(2.0, 2.0, 0.0);
-		_is_Controlled = false;
 	}
 
 	double speed;
 	XDVector3<double> position;
 	XDVector3<double> velocity;
-	
 	inline void setSpeed(double _Speed){	speed = _Speed;		}
-	inline void setPosition(int _X, int _Y, int _Z){	
-		_realPos.setPosition(_X, _Y, _Z);
-		_gridPos.setPosition(_X, _Y, _Z);
-		position.setPosition(_X, _Y, _Z);																		
-	}
-	inline void setVelocity(int _X, int _Y, int _Z){	
-		_velocity.setPosition(_X, _Y, _Z);	
-		velocity.setPosition(_X, _Y, _Z);
-	}
-
+	inline void setPosition(int _X, int _Y, int _Z){	position.setPosition(_X, _Y, _Z);	}
+	inline void setVelocity(int _X, int _Y, int _Z){	velocity.setPosition(_X, _Y, _Z);	}
+	
 protected:
 	double _time;
 
 public:
-	XDVector3<int> _gridPos;
-	XDVector3<double> _realPos;
-	XDVector3<double> _velocity;
 	XDVector3<int> _screenPos;
-//	double speed;
-
-	bool _is_Controlled;
 
 	bool Controlled;
 	bool reversed;
-	
-	void moveLeft(){	_velocity.X = -2.0; _velocity.Y = -0.0;  }//	if(!_is_Controlled && _gridPos.X>0){_gridPos.X -= 1;	_is_Controlled = true;	}	}
-	void moveRight(){	_velocity.X = 2.0; _velocity.Y = -0.0; 	} //if(!_is_Controlled && _gridPos.X<15) {_gridPos.X += 1; _is_Controlled = true;}}
-	void moveUp(){		_velocity.X = 0.0; _velocity.Y = -2.0; }//if(!_is_Controlled && _gridPos.Y>0) {_gridPos.Y -= 1; _is_Controlled = true;}}
-	void moveDown(){ _velocity.X = 0.0; _velocity.Y = 2.0;  }//if(!_is_Controlled && _gridPos.Y<5) {_gridPos.Y += 1; _is_Controlled = true;}}
-	void stop(){ _velocity.X = 0.0; _velocity.Y = 0.0; }
 
 public:
 	void Update_Move( double _dTime ){
 		position.X += _dTime * velocity.X;
 		position.Y += _dTime * velocity.Y;
 		position.Z += _dTime * velocity.Z;
-		
-		_realPos.X += _dTime * _velocity.X;
-		_realPos.Y += _dTime * _velocity.Y;
-		_realPos.Z += _dTime * _velocity.Z;				
-		/*
-		// 위치가 다르면 
-		double delta = 0.0;
-		if (std::abs(_gridPos.Y - _realPos.Y) < 0.01) {     //y좌표의 변화가 없을 때
-			if( _realPos.X - _gridPos.X > 0) {    //왼쪽으로 갈 때
-				delta = -_DTime*_velocity.X;    //변화량 계산
-				if( _realPos.X + delta <= _gridPos.X){	delta = _gridPos.X - _realPos.X; _is_Controlled = false;	}   //변화량이 커서 너무 많이 움직일 것 같으면 조정
-				_realPos.X += delta;    //이동변화 적용
-			}
-			else {    //오른쪽으로 갈 때
-				delta = _DTime*_velocity.X;
-				if( _realPos.X + delta >= _gridPos.X) {delta = _gridPos.X - _realPos.X; _is_Controlled = false;}
-				_realPos.X += delta;
-			}
-		}
-		else if (std::abs(_gridPos.X - _realPos.X) < 0.01) {    //x좌표의 변화가 없을 때
-			if( _realPos.Y - _gridPos.Y > 0) {    //위로 갈 때
-				delta = -_DTime*_velocity.Y;
-				if( _realPos.Y + delta <= _gridPos.Y) {delta = _gridPos.Y - _realPos.Y; _is_Controlled = false;}
-				_realPos.Y += delta;
-			}
-			else {    //아래로 갈 때
-				delta = _DTime*_velocity.Y;
-				if( _realPos.Y + delta >= _gridPos.Y) {delta = _gridPos.Y - _realPos.Y; _is_Controlled = false;}
-				_realPos.Y += delta;
-			}
-		}
-		setScreenPos();    //계산한 실제 좌표를 가지고 화면상의 좌표를 계산
-		//collideBox의 좌표 동기화가 필요 
-*/
-	}
-
+	}	
 
 
 /*
@@ -143,13 +85,11 @@ protected:
 	}
 	
 	// 애니메이션 리스트에 있는 N 번째 애니메이션을 현재 애니메이션으로 한다.
-	void set_Animation( int _N , bool* _Fin = NULL )
+	void set_Animation( int _N )
 	{
 		_animation_queue = _animation_list[_N];
 		_animation_time = 0.25/(speed);
-		_fin = _Fin;
 	}
-	bool* _fin;
 
 public: 
 	// 애니메이션의 변화를 관리한다.
@@ -164,8 +104,8 @@ public:
 			}
 			else
 			{
-				if ( (_fin != NULL)  && (_animation_queue.size() == 1) )
-					*_fin = true;
+				if ( _animation_queue.size() == 1 )
+					;
 				_pImage = *_animation_queue.begin( );
 				_animation_queue.pop_front( );	
 			}
@@ -200,22 +140,19 @@ public:
 		}
 
 		SolidBrush *brush = new SolidBrush(Color(50, 0, 0, 0));
-//		G.FillEllipse(brush, (int)(_realPos.X*60), (int)(_realPos.Y*60/sqrt(2.0)+130)+20, 60, (int)(50/sqrt(2.0)-10));
 		G.FillEllipse(brush, (int)(position.X*60), (int)(position.Y*60/sqrt(2.0)+130)+20, 60, (int)(50/sqrt(2.0)-10));
-
+		
+		
 		G.DrawImage(_pImage, _screenPos.X, _screenPos.Y, 180, 180);//, Gdiplus::UnitPixel);	
 		if(reversed==true){
 			_pImage->RotateFlip(Gdiplus::Rotate180FlipY);
 		}
-		
+
 	}
 
 	void setScreenPos(){
 		int gridSize = 60;
 		int backgroundSize = 130;
-//		_screenPos.X = (int)(_realPos.X * gridSize - 60);
-//		_screenPos.Y = (int)(((_realPos.Y * gridSize + gridSize / 2 ) - (_realPos.Z * gridSize + 120 * sqrt(2.0))) / sqrt(2.0) + backgroundSize );	
-
 
 		_screenPos.X = (int)(position.X * gridSize - 60);
 		_screenPos.Y = (int)(((position.Y * gridSize + gridSize / 2 ) - (position.Z * gridSize + 120 * sqrt(2.0))) / sqrt(2.0) + backgroundSize );	
@@ -225,20 +162,3 @@ public:
 	~XDSprite(){	}
 };
 
-	/*
-	enum DIR{
-		LEFT,
-		RIGHT,
-	};
-	*/
-
-	/*
-	bool isMoving; 	  
-	bool isJumping;
-	bool isSkilling;
-	bool isBeingAttackted;
-
-	double attackSpeed;
-	double moveSpeed;
-	double recoverySpeed;
-	*/

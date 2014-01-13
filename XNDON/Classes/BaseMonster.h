@@ -15,7 +15,7 @@ public:
 
 	void Update(double _dTime ) // 업데이트
 	{
-		if(_is_Controlled == false) {
+		if(isMoving == false){//_is_Controlled == false) {
 			_time += _dTime; // 주기적으로 이동을 하기 위해 (이동 사이사이 텀을 주기 위해)
 			if ( _time >= 0.3 ) {
                 _time -= 0.3;

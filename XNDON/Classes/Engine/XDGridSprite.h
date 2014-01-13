@@ -5,7 +5,8 @@
 
 class XDGridSprite : public XDSprite
 {
-
+public:
+	void Update(double _dTime) = 0;
 
 	enum DIRECTION{ // 현재 이동방향을 나타낸다.
 		STOP,
@@ -32,8 +33,14 @@ protected:
 	
 	XDVector3<int> grid_current_position;
 	XDVector3<int> grid_next_position;
+public:
+	void setPosition(int _X, int _Y, int _Z ){
+		XDSprite::setPosition(_X, _Y, _Z);
+		grid_current_position.setPosition(_X,_Y,_Z);
+		grid_next_position.setPosition(_X,_Y,_Z);
+	}
 
-
+public:
 	void move_Left(){
 		if ( 0 < grid_current_position.X && !isMoving ){
 			isMoving = true;
@@ -61,13 +68,14 @@ protected:
 	
 	}
 	void move_Down(){
-		if ( grid_current_position.Y < 15 && !isMoving ){
+		if ( grid_current_position.Y < 5 && !isMoving ){
 			isMoving = true;
 			grid_next_position.Y++;
 			velocity.Y = base_velocity*speed;
 			direction = DOWN;
 		}
 	}
+
 public:
 	void Update_Grid_Move(double _dTime)
 	{

@@ -24,7 +24,7 @@ public:
 	}
 
 	static void Clear( ){
-		for(int i=0; i<baseMissiles.size(); i++)
+		for(unsigned int i=0; i<baseMissiles.size(); i++)
 			delete baseMissiles[i];
 		baseMissiles.clear();
 	}

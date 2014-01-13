@@ -7,7 +7,7 @@ class XDScene
 {
 public:
 	virtual void Update(double _dTime) = 0;
-
+	
 /*<----- 출력 스프라이트 관리 및 몬스터 생성 부분 구현 ----->*/
 public:
 
